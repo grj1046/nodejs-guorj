@@ -1,0 +1,36 @@
+<div class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">nil<sup>Beta</sup></a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/">首页</a></li>
+        <li><a href="/Articles">文章</a></li>
+        <li><a href="/About">关于</a></li>
+      </ul>
+      <% if (current_user) { %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/new_article">写文章</a></li>
+          <li id='account-menu' class="dropdown">
+              <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                <% current_user.name %><b class="caret"></a>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="/Users">Users</a></li>
+                <li><a href="/User/Profile">Profile</a></li>
+                <li class="divider"></li>
+                <li><a href="/Signout">Sign out</a></li>
+              </ul>
+          </li>
+        </ul>
+      <%} %>
+    </div>
+  </div>
+</div>
+<!-- end navbar -->
