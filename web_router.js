@@ -3,8 +3,10 @@ var express = require('express');
 
 //var user = require('./controllers/user');
 var site = require('./controllers/site');
-var router = express.Router();
+var staticController = require('./controllers/static');
+var user = require('./controllers/user');
 
+var router = express.Router();
 //home page
 router.get('/', site.index);
 
@@ -15,5 +17,11 @@ if (config.allow_sign_up) {
 } else {
   //router.get('signup', '')
 }
+//static page
+router.get('/about', staticController.about);
+router.get('/faq', staticController.faq);
+router.get('/robots.txt', staticController.robots);
+
+//router.get('/user/:name', user.index);//用户个人主页
 
 module.exports = router;
