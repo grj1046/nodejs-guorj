@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var partials = require('express-partials');
 var _ = require('lodash');
+var auth = require('./middlewares/auth');
 //静态文件目录
 var staticDir = path.join(__dirname, 'public');
 
@@ -35,6 +36,11 @@ app.use(partials());
 //app.use(session({
 //  secret: config.session_secret,
 //}));
+
+//custom middleware
+app.use(auth.authUser);
+app.use(auth.blockUser());
+
 if (!config.debug) {
 //  app.use(function (req, res, next) {
 //    if (req,path.indexOf('/api') === -1) {
