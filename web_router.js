@@ -22,6 +22,6 @@ router.get('/about', staticController.about);
 router.get('/faq', staticController.faq);
 router.get('/robots.txt', staticController.robots);
 
-//router.get('/user/:name', user.index);//用户个人主页
+router.get('/user/:name', user.index);//用户个人主页
 
 module.exports = router;

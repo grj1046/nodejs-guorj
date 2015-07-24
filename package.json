@@ -32,6 +32,8 @@
     "express-partials": "^0.3.0",
     "express-session": "^1.11.3",
     "lodash": "^3.10.0",
-    "method-override": "^2.3.4"
+    "method-override": "^2.3.4",
+    "moment": "^2.10.3",
+    "mongoose": "^4.0.8"
   }
 }
