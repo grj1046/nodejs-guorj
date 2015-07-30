@@ -26,7 +26,7 @@ UserSchema.virtual('avatar_url').get(function () {
 });
 //index
 UserSchema.index({ user_id: 1}, { unique: true });
-UserSchema.index({ email: 1, { unique: true }});
+UserSchema.index({ email: 1}, { unique: true });
 UserSchema.index({ access_token: 1});
 
 mongoose.model('User', UserSchema);

@@ -5,6 +5,7 @@ var express = require('express');
 var site = require('./controllers/site');
 var staticController = require('./controllers/static');
 var user = require('./controllers/user');
+var account = require('./controllers/account');
 
 var router = express.Router();
 //home page
@@ -12,8 +13,8 @@ router.get('/', site.index);
 
 // sign controller
 if (config.allow_sign_up) {
-  //router.get('signup', site.index);
-  //router.post('signup', site.index);
+  router.get('/signup', account.showSignup);
+  router.post('/signup', account.signup);
 } else {
   //router.get('signup', '')
 }
