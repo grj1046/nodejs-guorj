@@ -4,6 +4,6 @@ exports.index = function (req, res, next) {
   //res.end('hello');
   res.render('index', {
 //    config: config,
-    title: 'titie'
+    title: '首页'
   });
 }

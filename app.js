@@ -5,6 +5,7 @@ var webRouter = require('./web_router');
 
 var path = require('path');
 var express = require('express');
+var session = require('express-session');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var partials = require('express-partials');
@@ -27,15 +28,18 @@ app.set('view engine', 'ejs');
 //静态资源
 app.use('/public', express.static(staticDir));
 //通用的中间件
-app.use(bodyParser());
-//app.use(bodyParser.json({limit: '1mb'}));
-//app.use(bodyParser.urlencoded({extended: true, limit: '1mb'}));
+//app.use(bodyParser());
+app.use(bodyParser.json({limit: '1mb'}));
+app.use(bodyParser.urlencoded({extended: true, limit: '1mb'}));
 //app.use(require('method-override'));
 app.use(require('cookie-parser')(config.session_secret));
 app.use(partials());
-//app.use(session({
-//  secret: config.session_secret,
-//}));
+app.use(session({
+  secret: config.session_secret,
+  name: config.auth_cookie_name,
+  resave: true,
+  saveUninitialized: true
+}));
 
 //custom middleware
 app.use(auth.authUser);

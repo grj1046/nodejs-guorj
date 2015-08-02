@@ -3,16 +3,18 @@ var BaseModel = require('./base_model');
 var Schema = mongoose.Schema;
 var utility = require('utility');
 
-var UserSchema = new Schema({
+var AccountSchema = new Schema({
   loginname: { type: String },
   passhash: { type: String },
-  accountType: { type: String },
-  user_id: { type: String }
+  email: { type: String },
+  user_id: { type: String },
+  active: { type: Boolean }
 });
 
-UserSchema.plugin(BaseModel);
+AccountSchema.plugin(BaseModel);
 //UserSchema.virtual('pass_confirm');
 
-UserSchema.index({ loginname: 1}, { unique: true });
+AccountSchema.index({ loginname: 1}, { unique: true });
+AccountSchema.index({ email: 1 }, { unique: true });
 
-mongoose.model('Account', UserSchema);
+mongoose.model('Account', AccountSchema);

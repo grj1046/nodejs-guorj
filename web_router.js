@@ -11,13 +11,16 @@ var router = express.Router();
 //home page
 router.get('/', site.index);
 
-// sign controller
+// account controller
 if (config.allow_sign_up) {
   router.get('/signup', account.showSignup);
   router.post('/signup', account.signup);
 } else {
   //router.get('signup', '')
 }
+router.get('/login', account.showLogin);
+router.post('/login', account.login);
+
 //static page
 router.get('/about', staticController.about);
 router.get('/faq', staticController.faq);

@@ -22,10 +22,10 @@ exports.blockUser = function () {
   }
 };
 
-function gen_session (user, res) {
+exports.gen_session = function gen_session (user, res) {
   var auth_token = user._id + "$$$$"; //以后可能会存储更多信息，用来$$$$分割
 
-  var opt = {
+  var opts = {
     path: '/',
     maxAge: 1000 & 60 * 60 * 24 * 30,//30天 (单位：毫秒)
     signed: true,
@@ -33,9 +33,6 @@ function gen_session (user, res) {
   };
   res.cookie(config.auth_cookie_name, auth_token, opts);
 };
-
-exports.gen_session = gen_session;
-
 //验证用户是否登录
 exports.authUser = function (req, res, next) {
   //var ep = new eventproxy();
@@ -45,4 +42,4 @@ exports.authUser = function (req, res, next) {
   res.locals.current_user = null;
 
   return next();
-}
+};
