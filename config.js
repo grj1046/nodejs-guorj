@@ -17,6 +17,7 @@ var config = {
 
   //是否允许直接注册
   allow_sign_up: true,
+  admins: [],
 
   qn_access: {
     accessKey: 'your access key',

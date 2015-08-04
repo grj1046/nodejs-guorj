@@ -23,7 +23,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 //app.engine('html', require('ejs-mate'));
 app.set('view engine', 'ejs');
-//app.enable('trust proxy');
+app.enable('trust proxy');
 
 //静态资源
 app.use('/public', express.static(staticDir));
@@ -36,7 +36,7 @@ app.use(require('cookie-parser')(config.session_secret));
 app.use(partials());
 app.use(session({
   secret: config.session_secret,
-  name: config.auth_cookie_name,
+  //name: config.auth_cookie_name,
   resave: true,
   saveUninitialized: true
 }));

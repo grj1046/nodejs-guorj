@@ -168,7 +168,7 @@ exports.login = function (req, res, next) {
           return next(err);
         }
         // store session cookie
-        authMiddleWare.gen_session(user.id, res)
+        authMiddleWare.gen_session(user, res)
         var refer = req.session._loginReferer || '/';
         for (var i = 0; i < notJump.length; i++) {
           if (refer.indexOf(notJump[i]) >= 0) {

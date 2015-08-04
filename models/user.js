@@ -9,7 +9,7 @@ var UserSchema = new Schema({
   signature: { type: String },
   profile: { type: String },
   avatar: { type: String },
-  is_block: { type: Boolean, default: false },
+  is_block: { type: Boolean, default: false },//是否被管理员屏蔽
 
   score: { type: Number, default: 0 },
   created_at: { type: Date, default: Date.now },
