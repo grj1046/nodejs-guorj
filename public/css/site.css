@@ -1,3 +1,30 @@
+/* stricky footer styles*/
+body {
+  height: 100%;
+}
+
+#content {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -60px;
+}
+
+#footer {
+  height: 60px;
+}
+
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* end stricky footer styles*/
+
 input, select, textarea {
 	max-width: 280px;
 }
