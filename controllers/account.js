@@ -146,7 +146,7 @@ exports.login = function (req, res, next) {
     }
     
     if (!account) {
-      return ep.emit('login_err');
+      return ep.emit('login_error');
     }
     
     var passhash = account.passhash;

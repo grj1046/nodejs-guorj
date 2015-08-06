@@ -22,7 +22,7 @@
                 <%= current_user.name %><b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="/user/profile">Profile</a></li>
+                <li><a href="/user/<%= current_user.id %>">Profile</a></li>
                 <li class="divider"></li>
                 <li><a href="/logout" data-method="post" rel="nofollow">Sign out</a></li>
               </ul>
