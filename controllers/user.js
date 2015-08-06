@@ -9,8 +9,8 @@ exports.index = function (req, res, next) {
   var ep = new eventproxy();
   ep.fail(next);
   ep.on('render_user', function(user) {
-    res.render('/user/index', {
-      title: util.format("@%s 的个人主页", user.nickname),
+    res.render('user/index', {
+      title: util.format("@%s 的个人主页", user.nickname || ''),
       user: user
     });
   });

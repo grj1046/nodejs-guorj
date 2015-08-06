@@ -7,20 +7,11 @@ body {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto -60px;
+  margin: 0 auto -80px;
 }
 
 #footer {
-  height: 60px;
-}
-
-@media (max-width: 767px) {
-  #footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+  height: 80px; /* <hr /> 的总高度为41*/
 }
 
 /* end stricky footer styles*/

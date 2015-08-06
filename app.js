@@ -68,6 +68,14 @@ app.use(errorPageMiddleware.errorPage);
 _.extend(app.locals, require('./common/render_helper'));
 app.use('/', webRouter);
 
+if (!config.debug) {
+  //全局异常捕获
+  app.use(function (err, req, res, next) {
+    console.error('server 500 error:', err);
+    return res.status(500).send('500 status');
+  });
+}
+
 app.listen(config.port, function() {
   console.log('guorj.cn listening on port', config.port);
   console.log('God bless love ...');

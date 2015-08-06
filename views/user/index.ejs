@@ -1,13 +1,14 @@
 <div class="container">
-  <div class="panel">
-    <div class="header">
-      <ul class="breadcrumb">
-        <li><a href='/'>主页</a><span class="divider"></span></li>
-        <li class="active">用户</li>
-      </ul>
-    </div>
-    <div class="inner userinfo">
-      User page <%= user.loginname %>
-    </div>
+  <div class="header">
+    <ul class="breadcrumb">
+      <li><a href='/'>主页</a><span class="divider"></span></li>
+      <li class="active">用户</li>
+    </ul>
+  </div>
+  <div class="inner userinfo">
+    nickname: <%= user.nick_name %><br />
+    name: <%= user.name %><br />
+    email: <%= user.email %><br />
+    creat time: <%= user.created_at %><br />
   </div>
 </div>
