@@ -19,13 +19,15 @@ if (config.allow_sign_up) {
   //router.get('signup', '')
 }
 router.get('/login', account.showLogin);
-router.post('/login', account.login);
+router.post('/login', account.login);//登录
+router.post('/logout', account.logout);//退出
 
 //static page
 router.get('/about', staticController.about);
 router.get('/faq', staticController.faq);
 router.get('/robots.txt', staticController.robots);
 
-router.get('/user/:name', user.index);//用户个人主页
+//user
+router.get('/user/:id', user.index);//用户个人主页
 
 module.exports = router;

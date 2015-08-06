@@ -11,6 +11,7 @@ var ejs = require('ejs');
 var partials = require('express-partials');
 var _ = require('lodash');
 var auth = require('./middlewares/auth');
+var errorPageMiddleware = require('./middlewares/error_page')
 //静态文件目录
 var staticDir = path.join(__dirname, 'public');
 
@@ -60,9 +61,11 @@ app.use(function (req, res, next) {
 // set static, dynamic helpers
 // 全局的帮助函数或者变量
 _.extend(app.locals, {
-  config: config
-})
+  config: config,
+});
 
+app.use(errorPageMiddleware.errorPage);
+_.extend(app.locals, require('./common/render_helper'));
 app.use('/', webRouter);
 
 app.listen(config.port, function() {

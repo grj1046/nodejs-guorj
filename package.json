@@ -34,11 +34,13 @@
     "express-partials": "^0.3.0",
     "express-session": "^1.11.3",
     "lodash": "^3.10.0",
+    "markdown-it": "^4.4.0",
     "method-override": "^2.3.4",
     "moment": "^2.10.3",
     "mongoose": "^4.0.8",
     "node-uuid": "^1.4.3",
     "utility": "^1.4.0",
-    "validator": "^3.42.0"
+    "validator": "^3.42.0",
+    "xss": "^0.2.6"
   }
 }

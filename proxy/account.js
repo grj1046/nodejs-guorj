@@ -45,6 +45,6 @@ exports.getAccountByLoginname = function (loginname, callback) {
  * @param {String} email 邮箱地址
  * @param {Function} callback 回调函数
  */
-exports.getAccountById = function (email, callback) {
+exports.getAccountByEmail = function (email, callback) {
   Account.findOne({email: email}, callback);
 };

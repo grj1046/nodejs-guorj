@@ -3,6 +3,7 @@ var BaseModel = require('./base_model');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
+  nick_name: { type: String },
   name: { type: String },
   email: { type: String },
   profile_image_url: { type: String },

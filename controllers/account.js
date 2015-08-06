@@ -181,3 +181,12 @@ exports.login = function (req, res, next) {
     }));
   });
 };
+
+/**
+ * sign out
+ */
+ exports.logout = function (req, res, next) {
+   req.session.destroy();
+   res.clearCookie(config.auth_cookie_name, { path: '/'});
+   res.redirect('/');
+ };
