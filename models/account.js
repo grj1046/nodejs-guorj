@@ -8,7 +8,9 @@ var AccountSchema = new Schema({
   passhash: { type: String },
   email: { type: String },
   user_id: { type: String },
-  active: { type: Boolean }
+  active: { type: Boolean },
+  create_at: { type: Date, default: Date.now },
+  update_at: { type: Date, default: Date.now }
 });
 
 AccountSchema.plugin(BaseModel);
