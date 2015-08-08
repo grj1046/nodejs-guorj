@@ -64,7 +64,7 @@ exports.signup = function (req, res, next) {
         return next(err);
       }
       tools.bhash(pass, ep.done(function (passhash) {
-        Account.newAndSave(loginname, passhash, email, user.id, function (err) {
+        Account.newAndSave(loginname, passhash, email, user._id, function (err) {
           if (err)
             return next(err);
           //发送激活邮件

@@ -1,11 +1,11 @@
 var config = require('./config');
 var express = require('express');
 
-//var user = require('./controllers/user');
 var site = require('./controllers/site');
 var staticController = require('./controllers/static');
 var user = require('./controllers/user');
 var account = require('./controllers/account');
+var article = require('./controllers/article');
 
 var router = express.Router();
 //home page
@@ -29,5 +29,10 @@ router.get('/robots.txt', staticController.robots);
 
 //user
 router.get('/user/:id', user.index);//用户个人主页
+
+//article
+router.get('/articles', article.index);//文章列表
+router.get('/article/create', article.showCreate);
+router.post('/article/create', article.create);
 
 module.exports = router;

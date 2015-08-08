@@ -6,6 +6,7 @@ var ObjectId = Schema.ObjectId;
 var ArticleContentSchema = new Schema({
 	article_id: { type: ObjectId }, //Article表的Id
 	content: { type: String },
+	deleted: { type: Boolean, default: false },
 	create_at: { type: Date, default: Date.now },
 	update_at: { type: Date, default: Date.now }
 });
@@ -13,4 +14,4 @@ var ArticleContentSchema = new Schema({
 ArticleContentSchema.plugin(BaseModel);
 ArticleContentSchema.index({ article_id: 1 });
 
-mongoose.model('ArticleContent', ArticleContentSchema);
+mongoose.model('Article_content', ArticleContentSchema);

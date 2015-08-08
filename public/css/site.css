@@ -3,19 +3,28 @@ body {
   height: 100%;
 }
 
-#content {
+#body-content {
   min-height: 100%;
   height: auto !important;
   height: 100%;
   margin: 0 auto -80px;
 }
 
-#footer {
+#body-footer {
   height: 80px; /* <hr /> 的总高度为41*/
 }
 
+
 /* end stricky footer styles*/
 
-input, select, textarea {
+textarea {
+  resize: none;
+}
+
+.inner {
+  margin-bottom: 80px;
+}
+
+.input-text {
 	max-width: 280px;
 }

@@ -17,4 +17,4 @@ require('./article_content')
 exports.User = mongoose.model('User');
 exports.Account = mongoose.model('Account');
 exports.Article = mongoose.model('Article');
-exports.ArticleContent = mongoose.model('ArticleContent');
+exports.ArticleContent = mongoose.model('Article_content');
