@@ -1,7 +1,7 @@
 /**
  * article
  */
-var eventproxy = require('eventproxy');
+var EventProxy = require('eventproxy');
 var validator = require('validator');
 var Article = require('../proxy').Article;
 
@@ -10,6 +10,28 @@ exports.index = function (req, res) {
     title: '文章列表'
   })
 };
+
+exports.showArticle = function (req, res, next) {
+  var article_id = req.params.id;
+  if (article_id === '') {
+    res.render404("参数出错");
+  }
+  var ep = new EventProxy();
+  ep.fail(next);
+  ep.on('get_article', function (article) {
+    res.render('article/show', {
+      title: article.title,
+      article: article
+    });
+  });
+  
+  Article.getArticleById(article_id, function (err, article) {
+    if (err) {
+      return next(err);
+    }
+    ep.emit('get_article', article);
+  });
+}
 
 exports.showCreate = function (req, res) {
   res.render('article/create', {
@@ -40,7 +62,7 @@ exports.create = function (req, res, next) {
       edit_error: editError
     })
   }
-  var ep = new eventproxy();
+  var ep = new EventProxy();
   ep.fail(next);
     
   ep.all("article_saved", function (article) {

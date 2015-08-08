@@ -1,12 +1,12 @@
 var config = require('../config');
 var UserProxy = require('../proxy').User;
 var util = require('util');
-var eventproxy = require('eventproxy');
+var EventProxy = require('eventproxy');
 
 exports.index = function (req, res, next) {
   var user_id = req.params.id;
   
-  var ep = new eventproxy();
+  var ep = new EventProxy();
   ep.fail(next);
   ep.on('render_user', function(user) {
     res.render('user/index', {

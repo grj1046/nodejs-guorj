@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
-var ArticleContent = mongoose.model('ArticleContent');
+var models = require('../models');
+var ArticleContent = models.ArticleContent;
 
 exports.newAndSave = function (article_id, content, callback) {
 	var articleContent = new ArticleContent();

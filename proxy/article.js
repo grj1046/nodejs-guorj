@@ -1,8 +1,10 @@
-var mongoose = require('mongoose');
-var Article = mongoose.model('Article');
+var models = require('../models');
+var Article = models.Article;
 var ProxyArticleContent = require('./article_content'); 
 
-//var updateContentId = function (article_id, )
+exports.getArticleById = function (article_id, callback) {
+  Article.findOne({ _id: article_id }, callback);
+};
 
 exports.newAndSave = function (title, content, current_user_id, callback) {
   var article = new Article();

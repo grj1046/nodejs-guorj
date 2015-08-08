@@ -3,7 +3,7 @@ var tools = require('../common/tools');
 var Account = require('../proxy').Account; 
 var User = require('../proxy').User;
 var authMiddleWare = require('../middlewares/auth');
-var eventproxy = require('eventproxy'); 
+var EventProxy = require('eventproxy'); 
 var validator = require('validator');
 var uuid = require('node-uuid');
 
@@ -20,7 +20,7 @@ exports.signup = function (req, res, next) {
   var pass = validator.trim(req.body.pass);
   var rePass = validator.trim(req.body.re_pass);
 
-  var ep = new eventproxy();
+  var ep = new EventProxy();
   ep.fail(next);
   ep.on('prop_err', function (msg) {
     res.status(422);
@@ -113,7 +113,7 @@ var notJump = [
 exports.login = function (req, res, next) {
   var loginname = validator.trim(req.body.loginname).toLowerCase();
   var pass = validator.trim(req.body.pass);
-  var ep = new eventproxy();
+  var ep = new EventProxy();
   
   ep.fail(next);
   
