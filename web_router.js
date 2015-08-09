@@ -36,5 +36,7 @@ router.get('/articles', article.index);//文章列表
 router.get('/articles/create', auth.loginRequired, article.showCreate);//显示新建文章界面
 router.post('/articles/create', auth.userRequired, article.create);//新建文章
 router.get('/article/:id', article.showArticle);//显示一篇文章
+router.get('/article/:id/edit', auth.loginRequired, article.showUpdate);//显示更新文章界面
+router.post('/article/:id/edit', auth.userRequired, article.update);//更新文章
 
 module.exports = router;

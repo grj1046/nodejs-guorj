@@ -4,11 +4,24 @@
 var EventProxy = require('eventproxy');
 var validator = require('validator');
 var Article = require('../proxy').Article;
+var ProxyArticleContent = require('../proxy').ArticleContent;
 
-exports.index = function (req, res) {
-  res.render('article/index', {
-    title: '文章列表'
-  })
+exports.index = function (req, res, next) {
+  var ep = new EventProxy();
+  ep.fail(next);
+  ep.on('get_articles', function (articles) {
+    res.render('article/index', {
+      title: '文章列表',
+      articles: articles
+    });
+  });
+  
+  Article.getArticles(function (err, articles) {
+    if (err) {
+      return next(err);
+    };
+    ep.emit('get_articles', articles);
+  });
 };
 
 exports.showArticle = function (req, res, next) {
@@ -29,7 +42,17 @@ exports.showArticle = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    ep.emit('get_article', article);
+    if (article.content_id === undefined) {
+      article.content = article.summary;
+      return ep.emit('get_article', article);
+    }
+    ProxyArticleContent.getArticleContentById(article.content_id, function (conErr, articleContent) {
+      if (conErr) {
+        return next(conErr);
+      }
+      article.content = articleContent != null ? articleContent.content : '';
+      ep.emit('get_article', article);
+    });
   });
 }
 
@@ -68,11 +91,29 @@ exports.create = function (req, res, next) {
   ep.all("article_saved", function (article) {
     res.redirect('/article/' + article.id);
   });
-  //文章摘要
   Article.newAndSave(title, content, req.session.user._id, function (err, article) {
     if (err) {
       return next(err);
     }
-    ep.emit("article_saved", article);
+    ProxyArticleContent.newAndSave(article._id, content, function(conErr, articleContent) {
+      if (conErr) {
+        return next(conErr);
+      }
+      article.content_id = articleContent._id;
+      article.save(function (updateErr, updatedArticle) {
+        if (updateErr) {
+          return next(updateErr);
+        }
+        ep.emit("article_saved", updatedArticle);
+      });
+    });//END ProxyArticleContent
   });
+};
+
+exports.showUpdate = function (req, res, next) {
+  
+};
+
+exports.update = function (req, res, next) {
+  
 };

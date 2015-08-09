@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var BaseModel = require('./base_model');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
+var EventProxy = require('eventproxy');
 
 var ArticleSchema = new Schema({
 	title: { type: String },
