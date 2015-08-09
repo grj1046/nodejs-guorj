@@ -1,5 +1,5 @@
 var config = require('../config');
-var eventproxy = require('eventproxy');
+var EventProxy = require('eventproxy');
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var UserProxy = require('../proxy').User;
@@ -33,6 +33,17 @@ exports.userRequired = function (req, res, next) {
   next();
 };
 /**
+ * 未登录提示登录
+ */
+ exports.loginRequired = function (req, res, next) {
+   if (!req.session || !req.session.user) {
+     return res.render('notify/prompt', {
+       title: '提示'
+     });
+   }
+   next();
+ }
+/**
  * 用户是否被屏蔽
  */
 exports.blockUser = function () {
@@ -65,7 +76,7 @@ exports.gen_session = function (user, res) {
  * 验证用户是否登录
  */
 exports.authUser = function (req, res, next) {
-  var ep = new eventproxy();
+  var ep = new EventProxy();
   ep.fail(next);
   
   //Ensure current_user always has defined.
