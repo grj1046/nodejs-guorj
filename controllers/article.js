@@ -72,7 +72,7 @@ exports.create = function (req, res, next) {
   if (title === '') {
     editError = "标题不能为空";
   } else if (title.lentgh < 1 || title.length > 50) {
-    editError = "标题长度为1~100个字符";
+    editError = "标题长度为1~50个字符";
   } else if (content === '') {
     editError = "内容不能为空";
   }
@@ -111,9 +111,75 @@ exports.create = function (req, res, next) {
 };
 
 exports.showUpdate = function (req, res, next) {
-  
+  var article_id = req.params.id;
+  var ep = new EventProxy();
+  ep.fail(next);
+  ep.on('get_article', function (article) {
+    res.render('article/edit', {
+      title: "编辑",
+      article: article
+    });
+  });
+  Article.getArticleById(article_id, function (err, article) {
+    if (err) {
+      return next(err);
+    }
+    ProxyArticleContent.getArticleContentById(article.content_id, function (conErr, articleContent) {
+      if (conErr) {
+        return next(conErr);
+      }
+      article.content = articleContent != null ? articleContent.content : '';
+      ep.emit('get_article', article);
+    });
+  });
 };
 
 exports.update = function (req, res, next) {
-  
+  var article_id = req.params.id;
+  var title = req.body.title;
+  var content = req.body.content;
+  //检查改篇文章的拥有者
+  Article.getArticleById(article_id, function (articleErr, article) {
+    if (articleErr) {
+      return next(articleErr);
+    };
+    if (article.author_id.equals(req.session.user._id) || req.session.user.is_admin) {
+      title = validator.trim(title);
+      title = validator.escape(title);
+      content = validator.trim(content);
+      //验证
+      var editErr;
+      if (title === '') {
+        editErr = '标题不能为空。';
+      } else if (title.length < 1 || title.length > 50) {
+        editErr = "标题长度为1~50个字符，当前标题长度为：" + title.length;
+      }
+      //END 验证
+      
+      if (editErr) {
+        return res.render('article/edit', {
+          title: '编辑',
+          edit_error: editErr,
+          article: {_id: article_id, title: title, content: content}
+        });
+      }
+      
+      ProxyArticleContent.newAndSave(article._id, content, function (conErr, articleContent) {
+        if (conErr) {
+          return next(conErr);
+        }
+        article.title = title;
+        article.content_id = articleContent._id;
+        article.update_at = new Date();
+        article.save(function (updateErr, updateArticle) {
+          if (updateErr) {
+            return next(updateErr);
+          }
+          res.redirect('/article/' + article._id);
+        });
+      });
+    } else {
+      res.renderError('对不起，你不能编辑此文章。', 403);
+    }
+  });
 };
