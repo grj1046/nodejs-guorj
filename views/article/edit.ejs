@@ -2,7 +2,7 @@
   <div class="header">
     <ul class="breadcrumb">
 	  <li><a href='/'>主页</a><span class="divider"></span></li>
-	  <li class="active">添加文章</li>
+	  <li class="active">修改文章</li>
 	</ul>
   </div>
   <div class="inner">
@@ -25,10 +25,37 @@
           </textarea>
         </div>
         <div class="panel-footer">
-          <input type="button" value="&nbsp;预 览&nbsp;" class="btn btn-default btn-sm" />
+          <input type="button" value="&nbsp;预 览&nbsp;" class="btn btn-default btn-sm" data-toggle="modal" data-target=".modal-article-preview" />
           <input type="submit" value="&nbsp;修 改&nbsp;" class="btn btn-primary btn-sm" />
         </div>
       </div>
     </form>
   </div>
 </div>
+
+<%- include('_preview') %>
+
+<script type="text/javascript">
+  $(function() {
+    $('#preview_article').on('show.bs.modal', function (event) {
+      //var button = $(event.relatedTarget) // Button that triggered the modal
+      var data = {};
+      data.title = $('#title').val();
+      data.content = $('#content').val();
+      var modal = $(this);
+      $.ajax({
+        url: '/api/v1/article/preview',
+        method: 'post',
+        data: data,
+        dataType: 'json',
+        success: function (data) {
+      modal.find('.modal-title').text(data.title);
+      modal.find('.modal-body').html(data.content);
+        },
+        error: function (err) {
+          alert('预览时发生了些错误:' + err);
+        }
+      });
+    });
+  });
+</script>

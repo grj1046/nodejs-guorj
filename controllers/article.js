@@ -5,6 +5,7 @@ var EventProxy = require('eventproxy');
 var validator = require('validator');
 var Article = require('../proxy').Article;
 var ProxyArticleContent = require('../proxy').ArticleContent;
+var renderHelper = require('../common/render_helper');
 
 exports.index = function (req, res, next) {
   var ep = new EventProxy();
@@ -50,7 +51,12 @@ exports.showArticle = function (req, res, next) {
       if (conErr) {
         return next(conErr);
       }
-      article.content = articleContent != null ? articleContent.content : '';
+      if (articleContent != null) {
+        article.content = renderHelper.markdown(articleContent.content);
+        //article.content = articleContent.content;
+      } else {
+        article.content = '';
+      }
       ep.emit('get_article', article);
     });
   });
@@ -65,7 +71,7 @@ exports.showCreate = function (req, res) {
 exports.create = function (req, res, next) {
   var title = validator.trim(req.body.title);
   title = validator.escape(title);
-  var content = validator.trim(req.body.content);
+  var content = req.body.content;
   
   //验证
   var editError;

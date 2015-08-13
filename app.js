@@ -2,6 +2,7 @@
 
 var config = require('./config');
 var webRouter = require('./web_router');
+var webapiRouterV1 = require('./webapi_router_v1');
 
 var path = require('path');
 var express = require('express');
@@ -67,6 +68,7 @@ _.extend(app.locals, {
 app.use(errorPageMiddleware.errorPage);
 _.extend(app.locals, require('./common/render_helper'));
 app.use('/', webRouter);
+app.use('/api/v1', webapiRouterV1);
 
 if (!config.debug) {
   //全局异常捕获

@@ -8,7 +8,7 @@ var MarkdownIt = require('markdown-it');
 var _ = require('lodash');
 var config = require('../config');
 var validator = require('validator');
-var jxsxx = require('xss');
+var jsxss = require('xss');
 
 // set default optioins
 var md = new MarkdownIt();
@@ -17,7 +17,7 @@ md.set({
 	html:        true, // enable HTML tags in source
 	xHtmlOut:    true, //user '/' to close single tags (<br />)
 	breaks:      true, // convert '\n' in paragraphs into <br>
-	linkify:     true, //autoconvert URL-like text to links
+	linkify:     false, //not autoconvert URL-like text to links
 	typographer: true, //enable smartypants and other sweet transforms
 });
 
@@ -45,7 +45,7 @@ md.renderer.code_inline = function (tokens, idx) {
 	return '<code>' + validator.escape(tokens[idx]) + '</code>';
 };
 
-var  myxss = new jxsxx.FilterXSS({
+var  myxss = new jsxss.FilterXSS({
 	onIgnoreAttr: function (tag, name, value, isWhiteAttr) {
 	  //让 prettyprint 可以工作
 	  if (tag === 'pre' && name === 'class') {
@@ -55,7 +55,7 @@ var  myxss = new jxsxx.FilterXSS({
 });
 
 exports.markdown = function (text) {
-	return '<div class="markdown-text">' + myxss.process(md.render(text || ''));
+	return '<div class="markdown-text">' + myxss.process(md.render(text || '')) + '</div>';
 };
 
 exports.escapeSignature = function (signature) {
