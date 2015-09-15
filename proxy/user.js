@@ -18,12 +18,12 @@ exports.getUserByNames = function (names, callback) {
  * 添加用户
  */
 exports.newAndSave = function (loginname, email, callback) {
-  var user = new User();
-  user.nickname = loginname;
-  user.name = loginname;
-  user.email = email;
-  user.access_token = uuid.v4();
-  
+  var user = new User({
+    nickname: loginname,
+    name: loginname,
+    email: email,
+    access_token: uuid.v4()
+  });
   user.save(callback);
 };
 /**

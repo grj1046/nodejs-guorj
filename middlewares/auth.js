@@ -1,7 +1,7 @@
 var config = require('../config');
 var EventProxy = require('eventproxy');
 var mongoose = require('mongoose');
-var UserModel = mongoose.model('User');
+var User = require('../models').User;
 var UserProxy = require('../proxy').User;
 
 /**
@@ -86,7 +86,7 @@ exports.authUser = function (req, res, next) {
     if (!user) {
       return next();
     }
-    user = res.locals.current_user = req.session.user = new UserModel(user);
+    user = res.locals.current_user = req.session.user = new User(user);
     
     if (config.admins.hasOwnProperty(user.nickname)) {
       user.is_admin = true;

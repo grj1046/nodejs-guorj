@@ -14,4 +14,5 @@ var ArticleContentSchema = new Schema({
 ArticleContentSchema.plugin(BaseModel);
 ArticleContentSchema.index({ article_id: 1 });
 
-mongoose.model('Article_content', ArticleContentSchema);
+//mongoose.model('Article_content', ArticleContentSchema);
+exports.ArticleContentSchema = ArticleContentSchema;

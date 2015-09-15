@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var BaseModel = require('./base_model');
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
-var EventProxy = require('eventproxy');
+//var EventProxy = require('eventproxy');
 
 var ArticleSchema = new Schema({
 	title: { type: String },
@@ -18,4 +18,5 @@ ArticleSchema.plugin(BaseModel);
 ArticleSchema.index({ title: 1 });
 ArticleSchema.index({ author_id: 1 });
 
-mongoose.model('Article', ArticleSchema);
+//mongoose.model('Article', ArticleSchema);
+exports.ArticleSchema = ArticleSchema;

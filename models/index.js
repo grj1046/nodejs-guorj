@@ -1,20 +1,20 @@
 var mongoose = require('mongoose');
 var config = require('../config');
 
-mongoose.connect(config.db, function (err) {
-  if (err) {
-    console.error('connect to $s error:', config.db, err.message);
-    process.exit(1);
-  }
-});
+
+//https://github.com/Automattic/mongoose/wiki/3.8-Release-Notes#connection-pool-sharing
+var maindb = mongoose.createConnection(config.maindb);
+//var tmpdb = maindb.useDb(config.tmpdb_name); //mongoose.createConnection(config.tmpdb);
 
 //models
-require('./user');
-require('./account');
-require('./article');
-require('./article_content')
+var UserSchema = require('./user').UserSchema;
+var AccountSchema = require('./account').AccountSchema;
+var ArticleSchema = require('./article').ArticleSchema;
+var ArticleContent = require('./article_content').ArticleContentSchema;
+//maindb
 
-exports.User = mongoose.model('User');
-exports.Account = mongoose.model('Account');
-exports.Article = mongoose.model('Article');
-exports.ArticleContent = mongoose.model('Article_content');
+exports.User = maindb.model('User', UserSchema);
+exports.Account = maindb.model('Account', AccountSchema);
+exports.Article = maindb.model('Article', ArticleSchema);
+exports.ArticleContent = maindb.model('Article_content', ArticleContent);
+//tmpdb

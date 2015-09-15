@@ -20,4 +20,5 @@ AccountSchema.plugin(BaseModel);
 AccountSchema.index({ loginname: 1}, { unique: true });
 AccountSchema.index({ email: 1 }, { unique: true });
 
-mongoose.model('Account', AccountSchema);
+//mongoose.model('Account', AccountSchema);
+exports.AccountSchema = AccountSchema;

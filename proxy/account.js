@@ -18,12 +18,13 @@ exports.getAccountsByQuery = function (query, opt, callback) {
  * 注册新用户
  */
 exports.newAndSave = function (loginname, passhash, email, user_id, callback) {
-  var account = new Account();
-  account.loginname = loginname;
-  account.passhash = passhash;
-  account.email = email;
-  account.user_id = user_id;
-
+  var account = new Account({ 
+    loginname: loginname,
+    passhash: passhash,
+    email: email,
+    user_id: user_id
+  });
+  
   account.save(callback);
 };
 /**
