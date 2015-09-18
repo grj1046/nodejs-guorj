@@ -1,12 +1,11 @@
 /* stricky footer styles*/
-body {
+html, body {
   height: 100%;
 }
 
 #body-content {
   min-height: 100%;
-  height: auto !important;
-  height: 100%;
+  height: auto;
   margin: 0 auto -80px;
 }
 
