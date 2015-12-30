@@ -1,6 +1,5 @@
 var models = require('../models');
-var Article = models.Article;
-var ProxyArticleContent = require('./article_content'); 
+var Article = models.Article; 
 
 exports.getArticles = function (callback) {
   Article.find(callback);

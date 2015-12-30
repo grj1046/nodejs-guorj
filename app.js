@@ -8,8 +8,6 @@ var path = require('path');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-var ejs = require('ejs');
-var partials = require('express-partials');
 var _ = require('lodash');
 var auth = require('./middlewares/auth');
 var errorPageMiddleware = require('./middlewares/error_page')
@@ -23,22 +21,21 @@ var app = express();
 
 //configuration in all env
 app.set('views', path.join(__dirname, 'views'));
-//app.engine('html', require('ejs-mate'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'html');
+app.engine('html', require('ejs-mate'));
+app.locals._layoutFile = 'layout.html';
 app.enable('trust proxy');
 
 //静态资源
 app.use('/public', express.static(staticDir));
 //通用的中间件
-//app.use(bodyParser());
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '1mb'}));
 //app.use(require('method-override'));
 app.use(require('cookie-parser')(config.session_secret));
-app.use(partials());
 app.use(session({
   secret: config.session_secret,
-  //name: config.auth_cookie_name,
+  name: 'sid',//session id
   resave: true,
   saveUninitialized: true
 }));

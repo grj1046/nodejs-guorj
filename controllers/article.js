@@ -3,8 +3,10 @@
  */
 var EventProxy = require('eventproxy');
 var validator = require('validator');
+var moment = require('moment');
 var Article = require('../proxy').Article;
 var ProxyArticleContent = require('../proxy').ArticleContent;
+var ProxyDraftArticle = require('../proxy').DraftArticle;
 var renderHelper = require('../common/render_helper');
 
 exports.index = function (req, res, next) {
@@ -144,7 +146,7 @@ exports.update = function (req, res, next) {
   var article_id = req.params.id;
   var title = req.body.title;
   var content = req.body.content;
-  //检查改篇文章的拥有者
+  //检查该篇文章的拥有者
   Article.getArticleById(article_id, function (articleErr, article) {
     if (articleErr) {
       return next(articleErr);
@@ -187,5 +189,51 @@ exports.update = function (req, res, next) {
     } else {
       res.renderError('对不起，你不能编辑此文章。', 403);
     }
+  });
+};
+
+/*
+* 文章预览
+*/
+exports.preview = function (req, res, next) {
+  var title = req.body.title;
+  var content = req.body.content;
+  var t = req.params.t;
+  
+  var ep = new EventProxy();
+  ep.fail(next);
+  ep.on('article_preview', function(draft_article, list) {
+    res.render('article/preview', {
+      title: "文章预览：" + draft_article.title,
+      article: draft_article,
+      list: list
+    });
+  });
+  var user_id = req.session.user.id;
+  var create_at = new Date(parseInt(t));
+  ProxyDraftArticle.getOrCreate(user_id, title, content, create_at, function (err, draft_article) {
+    if (err) {
+      return next(err);
+    }
+    var mdContent = renderHelper.markdown(draft_article.content);
+    draft_article.content = mdContent;
+    ProxyDraftArticle.getUserDrafts(user_id, function (errGet, drafts) {
+      if (errGet) {
+        return next(errGet);
+      }
+      var list = [];
+      for (var i = 0; i < drafts.length; i++) {
+        var draft = { 
+          url: drafts[i].create_at.getTime(), 
+          title: drafts[i].title,
+          save_time: moment(drafts[i].create_at).format("YYYY/MM/DD HH:mm:ss:SSS") 
+        };
+        list.push(draft);
+      }
+      
+      //for (var draft in drafts) {}
+      //TODO:在此处将url和保存时间记录下来  [{url: "", saveTime: "" }]
+      ep.emit('article_preview', draft_article, list);
+    });
   });
 };

@@ -8,7 +8,7 @@ var config = {
 
   host: 'localhost',
   //https://github.com/Automattic/mongoose/wiki/3.8-Release-Notes#connection-pool-sharing
-  maindb: 'mongodb://127.0.0.1/guorj_blog_dev_a',//主数据库
+  maindb: 'mongodb://127.0.0.1/guorj_blog_dev',//主数据库
   tmpdb_name: 'guorj_blog_dev_tmp',//临时数据库，即使该数据库丢了，网站也能正常运行
 
   session_secret: 'guorj_blog_secret',//务必修改

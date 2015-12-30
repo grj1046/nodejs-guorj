@@ -14,7 +14,7 @@
         <%= edit_error %>
       </div>
     <% } %>
-    <form class="form-vertical" method="post">
+    <form id="form-article" class="form-vertical" method="post">
       <div class="panel panel-default">
         <div class="panel-heading">
           <input type="text" class="form-control" id="title" name="title" placeholder="标题" />
@@ -23,7 +23,7 @@
           <textarea class="form-control" rows="20" id="content" name="content" placeholder="文章内容..."></textarea>
         </div>
         <div class="panel-footer">
-          <input type="button" value="&nbsp;预 览&nbsp;" class="btn btn-default btn-sm" data-toggle="modal" data-target=".modal-article-preview" />
+          <input type="button" id="btn-preview" value="&nbsp;预 览&nbsp;" class="btn btn-default btn-sm" />
           <input type="submit" value="&nbsp;发 布&nbsp;" class="btn btn-primary btn-sm" />
         </div>
       </div>
@@ -31,4 +31,15 @@
   </div>
 </div>
 
-<%- include('_preview') %>
+
+<script type="text/javascript" src="/public/js/jstools.js"></script>
+<script type="text/javascript">
+  $(function() {
+    $("#btn-preview").on('click', function() {
+      var _t = new Date().getTime();
+      var action = "/article/preview/" + _t;
+      var data = $('#form-article').serializeArray();
+      jstools.createPostNewWindow(action, data);
+    });
+  });
+</script>

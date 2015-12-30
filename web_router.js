@@ -38,5 +38,7 @@ router.post('/articles/create', auth.userRequired, article.create);//新建文�
 router.get('/article/:id', article.showArticle);//显示一篇文章
 router.get('/article/:id/edit', auth.loginRequired, article.showUpdate);//显示更新文章界面
 router.post('/article/:id/edit', auth.userRequired, article.update);//更新文章
+router.get('/article/preview/:t', auth.userRequired, article.preview);//预览
+router.post('/article/preview/:t', auth.userRequired, article.preview);//预览
 
 module.exports = router;
