@@ -4,7 +4,7 @@ var config = require('../config');
 
 //https://github.com/Automattic/mongoose/wiki/3.8-Release-Notes#connection-pool-sharing
 var maindb = mongoose.createConnection(config.maindb);
-var tmpdb = maindb.useDb(config.tmpdb_name); //mongoose.createConnection(config.tmpdb);
+var tmpdb = maindb.useDb(config.tmpdb_name || config.maindb + '_tmpdb'); //mongoose.createConnection(config.tmpdb);
 
 maindb.on('error', function(){
 	console.log('connect to db has an error。', arguments);

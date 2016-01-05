@@ -65,7 +65,7 @@ _.extend(app.locals, {
 app.use(errorPageMiddleware.errorPage);
 _.extend(app.locals, require('./common/render_helper'));
 app.use('/', webRouter);
-app.use('/api/v1', webapiRouterV1);
+app.use('/api', webapiRouterV1);
 
 if (!config.debug) {
   //全局异常捕获

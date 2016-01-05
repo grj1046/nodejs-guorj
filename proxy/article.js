@@ -1,5 +1,5 @@
 var models = require('../models');
-var Article = models.Article; 
+var Article = models.Article;
 
 exports.getArticles = function (callback) {
   Article.find(callback);

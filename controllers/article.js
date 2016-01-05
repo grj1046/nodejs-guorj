@@ -112,6 +112,7 @@ exports.create = function (req, res, next) {
         if (updateErr) {
           return next(updateErr);
         }
+        ProxyDraftArticle.deleteDraftsByUserId(req.session.user._id, function () {});
         ep.emit("article_saved", updatedArticle);
       });
     });//END ProxyArticleContent
@@ -196,10 +197,7 @@ exports.update = function (req, res, next) {
 * 文章预览
 */
 exports.preview = function (req, res, next) {
-  var title = req.body.title;
-  var content = req.body.content;
-  var t = req.params.t;
-  
+  var t = req.params.t; //draft article id
   var ep = new EventProxy();
   ep.fail(next);
   ep.on('article_preview', function(draft_article, list) {
@@ -211,18 +209,19 @@ exports.preview = function (req, res, next) {
   });
   var user_id = req.session.user.id;
   var create_at = new Date(parseInt(t));
-  ProxyDraftArticle.getOrCreate(user_id, title, content, create_at, function (err, draft_article) {
+  ProxyDraftArticle.getByCreateTime(user_id, create_at, function (err, draft_article) {
     if (err) {
       return next(err);
     }
     var mdContent = renderHelper.markdown(draft_article.content);
     draft_article.content = mdContent;
+    draft_article.create_time = moment(draft_article.create_at).format("YYYY-MM-DD HH:mm:ss.SSS") 
     ProxyDraftArticle.getUserDrafts(user_id, function (errGet, drafts) {
       if (errGet) {
         return next(errGet);
       }
       var list = [];
-      for (var i = 0; i < drafts.length; i++) {
+      for (var i = drafts.length - 1; i >= 0 ; i--) {
         var draft = { 
           url: drafts[i].create_at.getTime(), 
           title: drafts[i].title,

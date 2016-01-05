@@ -13,15 +13,17 @@
           <%= article.title %>
         </div>
         <hr />
+        <div style="margin-bottom: 30px; color: gray;" class="text-right"><small>创建时间：<%- article.create_time %></small></div>
         <div id="article_content">
           <%- article.content %>
         </div>
       </div>
     </div>
     <div class="col-md-3" style="padding-right: 0;">
+      <button class="btn btn-large btn-success btn-block" style="margin-bottom:10px;">恢复到这个版本</button>
       <div class="panel panel-default">
         <div class="panel-heading">
-          草稿s
+          草稿
         </div>
         <div class="panel-body">
           <div class="list-group">

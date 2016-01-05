@@ -33,3 +33,11 @@ exports.getOrCreate = function(user_id, title, content, create_at, callback) {
 exports.getUserDrafts = function (user_id, callback) {
   DraftArticle.find({user_id: user_id}, callback);
 };
+
+exports.getByCreateTime = function (user_id, create_at, callback) {
+  DraftArticle.findOne({user_id: user_id, create_at: create_at}, callback);
+}
+
+exports.deleteDraftsByUserId = function(user_id, callback){
+  DraftArticle.remove({user_id: user_id}, callback);
+};

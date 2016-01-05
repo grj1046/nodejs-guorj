@@ -10,7 +10,7 @@ exports.index = function (req, res, next) {
   ep.fail(next);
   ep.on('render_user', function(user) {
     res.render('user/index', {
-      title: util.format("@%s 的个人主页", user.nickname || ''),
+      title: util.format("@%s 的个人主页", user.name || ''),
       user: user
     });
   });
