@@ -61,7 +61,20 @@
       })
     });
     $("#article-publish").on('click', function () {
-      window.open('/articles');
+      var data = $('#form-article').serializeArray();
+      $.ajax({
+        url: '/api/articles/create',
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function (data) {
+          window.location.href = "/article/" + data.ArticleId;
+        },
+        error: function (err, status) {
+          console.log('err', err);
+          console.log('status', status);
+        }
+      })
     });
   });
 </script>

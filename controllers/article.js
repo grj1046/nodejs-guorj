@@ -18,7 +18,7 @@ exports.index = function (req, res, next) {
       articles: articles
     });
   });
-  
+
   Article.getArticles(function (err, articles) {
     if (err) {
       return next(err);
@@ -29,8 +29,8 @@ exports.index = function (req, res, next) {
 
 exports.showArticle = function (req, res, next) {
   var article_id = req.params.id;
-  if (article_id === '') {
-    res.render404("参数出错");
+  if (article_id === '' || article_id === 'preview') {
+    return res.render404('参数出错');
   }
   var ep = new EventProxy();
   ep.fail(next);
@@ -40,7 +40,7 @@ exports.showArticle = function (req, res, next) {
       article: article
     });
   });
-  
+
   Article.getArticleById(article_id, function (err, article) {
     if (err) {
       return next(err);
@@ -95,7 +95,7 @@ exports.create = function (req, res, next) {
   }
   var ep = new EventProxy();
   ep.fail(next);
-    
+
   ep.all("article_saved", function (article) {
     res.redirect('/article/' + article.id);
   });
@@ -103,7 +103,7 @@ exports.create = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    ProxyArticleContent.newAndSave(article._id, content, function(conErr, articleContent) {
+    ProxyArticleContent.newAndSave(article._id, content, function (conErr, articleContent) {
       if (conErr) {
         return next(conErr);
       }
@@ -112,7 +112,7 @@ exports.create = function (req, res, next) {
         if (updateErr) {
           return next(updateErr);
         }
-        ProxyDraftArticle.deleteDraftsByUserId(req.session.user._id, function () {});
+        ProxyDraftArticle.deleteDraftsByUserId(req.session.user._id, function () { });
         ep.emit("article_saved", updatedArticle);
       });
     });//END ProxyArticleContent
@@ -123,6 +123,7 @@ exports.showUpdate = function (req, res, next) {
   var article_id = req.params.id;
   var ep = new EventProxy();
   ep.fail(next);
+  
   ep.on('get_article', function (article) {
     res.render('article/edit', {
       title: "编辑",
@@ -169,10 +170,10 @@ exports.update = function (req, res, next) {
         return res.render('article/edit', {
           title: '编辑',
           edit_error: editErr,
-          article: {_id: article_id, title: title, content: content}
+          article: { _id: article_id, title: title, content: content }
         });
       }
-      
+
       ProxyArticleContent.newAndSave(article._id, content, function (conErr, articleContent) {
         if (conErr) {
           return next(conErr);
@@ -200,7 +201,7 @@ exports.preview = function (req, res, next) {
   var t = req.params.t; //draft article id
   var ep = new EventProxy();
   ep.fail(next);
-  ep.on('article_preview', function(draft_article, list) {
+  ep.on('article_preview', function (draft_article, list) {
     res.render('article/preview', {
       title: "文章预览：" + draft_article.title,
       article: draft_article,
@@ -213,19 +214,27 @@ exports.preview = function (req, res, next) {
     if (err) {
       return next(err);
     }
+
+    if (!draft_article) {
+      return res.render('notify/notify', {
+        title: '预览',
+        error: 'no preview'
+      });
+    }
+
     var mdContent = renderHelper.markdown(draft_article.content);
     draft_article.content = mdContent;
-    draft_article.create_time = moment(draft_article.create_at).format("YYYY-MM-DD HH:mm:ss.SSS") 
+    draft_article.create_time = moment(draft_article.create_at).format("YYYY-MM-DD HH:mm:ss.SSS")
     ProxyDraftArticle.getUserDrafts(user_id, function (errGet, drafts) {
       if (errGet) {
         return next(errGet);
       }
       var list = [];
-      for (var i = drafts.length - 1; i >= 0 ; i--) {
-        var draft = { 
-          url: drafts[i].create_at.getTime(), 
+      for (var i = drafts.length - 1; i >= 0; i--) {
+        var draft = {
+          url: drafts[i].create_at.getTime(),
           title: drafts[i].title,
-          save_time: moment(drafts[i].create_at).format("YYYY/MM/DD HH:mm:ss:SSS") 
+          save_time: moment(drafts[i].create_at).format("YYYY/MM/DD HH:mm:ss:SSS")
         };
         list.push(draft);
       }

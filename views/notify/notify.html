@@ -2,7 +2,7 @@
   <div class="header">
     <ul class="breadcrumb">
       <li><a href='/'>主页</a><span class="divider"></span></li>
-	  <li class="active">通知</li>
+	    <li class="active">通知</li>
     </ul>
   </div>
   <div class="inner">
@@ -11,7 +11,7 @@
 	    <strong><%= error %></strong>
       </div>
     <% } %>
-    <% if (typeof(success) !== 'undefined' && success) %>
+    <% if (typeof(success) !== 'undefined' && success) {%>
       <div class="alert alert-success">
 	    <strong><%= success %></strong>
 	  </div>
