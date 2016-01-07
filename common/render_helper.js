@@ -3,40 +3,58 @@
  */
 
 "use strict";
-
+//highlight.js styles (theme) https://highlightjs.org/static/demo/
+var hljs = require('highlight.js');
 var MarkdownIt = require('markdown-it');
 var _ = require('lodash');
 var config = require('../config');
 var validator = require('validator');
-var jsxss = require('xss');
+//var jsxss = require('xss');
 
 // set default optioins
-var md = new MarkdownIt();
-
-md.set({
-	html:        true, // enable HTML tags in source
-	xHtmlOut:    true, //user '/' to close single tags (<br />)
-	breaks:      true, // convert '\n' in paragraphs into <br>
-	linkify:     false, //not autoconvert URL-like text to links
-	typographer: true, //enable smartypants and other sweet transforms
+//https://markdown-it.github.io/markdown-it.js
+var md = MarkdownIt({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (__) { }
+    }
+    return str;
+  }
 });
 
-md.renderer.rules.fence = function (tokens, idx) {
-	var token = tokens[idx];
-	var language = token.params && ('language-' + token.params) || '';
-	language = validator.escape(language);
-	
-	return '<pre class="prettyprint' + language + '">'
-	  + '<code>' + validator.escape(token.content) + '</code>'
-	  + '</pre>';
+md.set({
+  //html: true, // enable HTML tags in source notice: must disable html tags
+  xHtmlOut: true, //user '/' to close single tags (<br />)
+  breaks: true, // convert '\n' in paragraphs into <br>
+  linkify: false, //not autoconvert URL-like text to links
+  typographer: true, //enable smartypants and other sweet transforms
+});
+
+md.renderer.rules.fence = function (tokens, idx, options) {
+  var token = tokens[idx];
+  var language = token.info || '';
+  language = validator.escape(language);
+  var highlighted;
+
+  if (options.highlight) {
+    highlighted = options.highlight(token.content, language) || token.content;
+  } else {
+    highlighted = token.content;
+  }
+
+  return '<pre class="hljs ' + language + '"><code>'
+    + highlighted
+    + '</code></pre>\n';
 };
 
 md.renderer.rules.code_block = function (tokens, idx) {
 	var token = tokens[idx];
-	var language = tokens.params && ('language-' + token.params) || '';
+	var language = tokens.info || '';
 	language = validator.escape(language);
 	
-	return '<pre class="prettyprint' + language + '">'
+	return '<pre class="hljs ' + language + '">'
 	  + '<code>' + validator.escape(token.content) + '</code>'
 	  + '</pre>';
 };
@@ -44,18 +62,18 @@ md.renderer.rules.code_block = function (tokens, idx) {
 md.renderer.code_inline = function (tokens, idx) {
 	return '<code>' + validator.escape(tokens[idx]) + '</code>';
 };
-
-var  myxss = new jsxss.FilterXSS({
-	onIgnoreAttr: function (tag, name, value, isWhiteAttr) {
-	  //让 prettyprint 可以工作
-	  if (tag === 'pre' && name === 'class') {
-		  return name + '="' + jsxss.escapeAttrValue(value) + '"';
-	  }
-	}
+/*
+var myxss = new jsxss.FilterXSS({
+  onIgnoreAttr: function (tag, name, value, isWhiteAttr) {
+    //让 prettyprint 可以工作
+    if (tag === 'pre' && name === 'class') {
+      return name + '="' + jsxss.escapeAttrValue(value) + '"';
+    }
+  }
 });
-
+*/
 exports.markdown = function (text) {
-	return '<div class="markdown-text">' + myxss.process(md.render(text || '')) + '</div>';
+  return '<div class="markdown-text">' + md.render(text || '') + '</div>';
 };
 
 exports.escapeSignature = function (signature) {
@@ -65,8 +83,8 @@ exports.escapeSignature = function (signature) {
 };
 
 exports.staticFile = function (filePath) {
-	if (filePath.indexOf('http') === 0 || filePath.indexOf('//') === 0) {
-		return filePath;
-	}
-	return config.site_static_host + filePath;
+  if (filePath.indexOf('http') === 0 || filePath.indexOf('//') === 0) {
+    return filePath;
+  }
+  return config.site_static_host + filePath;
 };

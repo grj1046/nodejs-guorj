@@ -32,6 +32,7 @@
     "eventproxy": "^0.3.4",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
+    "highlight.js": "^9.1.0",
     "lodash": "^3.10.1",
     "markdown-it": "^5.0.2",
     "method-override": "^2.3.5",

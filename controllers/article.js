@@ -8,7 +8,31 @@ var Article = require('../proxy').Article;
 var ProxyArticleContent = require('../proxy').ArticleContent;
 var ProxyDraftArticle = require('../proxy').DraftArticle;
 var renderHelper = require('../common/render_helper');
+/*
+var hljs = require('highlight.js') // https://highlightjs.org/
+var MarkdownIt = require('markdown-it');
 
+// set default optioins
+//https://markdown-it.github.io/markdown-it.js
+var md = MarkdownIt({
+  highlight: function (str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (__) { }
+    }
+
+    return str;
+  }
+});
+
+md.set({
+  //html: true, // enable HTML tags in source
+  xHtmlOut: true, //user '/' to close single tags (<br />)
+  breaks: true, // convert '\n' in paragraphs into <br>
+  linkify: false, //not autoconvert URL-like text to links
+  typographer: true, //enable smartypants and other sweet transforms
+});*/
 exports.index = function (req, res, next) {
   var ep = new EventProxy();
   ep.fail(next);
@@ -55,7 +79,7 @@ exports.showArticle = function (req, res, next) {
       }
       if (articleContent != null) {
         article.content = renderHelper.markdown(articleContent.content);
-        //article.content = articleContent.content;
+        //article.content = md.render(articleContent.content);
       } else {
         article.content = '';
       }
