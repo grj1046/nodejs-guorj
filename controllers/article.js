@@ -2,12 +2,13 @@
  * article
  */
 var EventProxy = require('eventproxy');
-var validator = require('validator');
 var moment = require('moment');
-var Article = require('../proxy').Article;
-var ProxyArticleContent = require('../proxy').ArticleContent;
-var ProxyDraftArticle = require('../proxy').DraftArticle;
+var proxy = require('../proxy');
 var renderHelper = require('../common/render_helper');
+var validator = require('validator');
+var ProxyArticle = proxy.Article;
+var ProxyArticleContent = proxy.ArticleContent;
+var ProxyDraftArticle = proxy.DraftArticle;
 /*
 var hljs = require('highlight.js') // https://highlightjs.org/
 var MarkdownIt = require('markdown-it');
@@ -34,21 +35,35 @@ md.set({
   typographer: true, //enable smartypants and other sweet transforms
 });*/
 exports.index = function (req, res, next) {
+  var page = parseInt(req.query.page) || 1;//pageIndex
+  page = page > 0 ? page : 1;
+  
   var ep = new EventProxy();
   ep.fail(next);
-  ep.on('get_articles', function (articles) {
+  ep.all('get_articles', 'pages', function (articles, pages) {
     res.render('article/index', {
       title: '文章列表',
-      articles: articles
+      articles: articles,
+      pages: pages,
+      current_page: page
     });
   });
-
-  Article.getArticles(function (err, articles) {
+  var limit = 20;//pageSize
+  var query = {};
+  var options = { skip: (page - 1) * limit, limit: limit, sort: '-update_at -create_at'};
+  ProxyArticle.getArticlesByQuery(query, options, function (err, articles) {
     if (err) {
       return next(err);
     };
     ep.emit('get_articles', articles);
   });
+  
+  //取分页数据
+  ProxyArticle.getCount({}, ep.done(function (articleCount) {
+    var pages = Math.ceil(articleCount / limit);
+    ep.emit('pages', pages);
+  }));
+  //END 取分页数据
 };
 
 exports.showArticle = function (req, res, next) {
@@ -65,7 +80,7 @@ exports.showArticle = function (req, res, next) {
     });
   });
 
-  Article.getArticleById(article_id, function (err, article) {
+  ProxyArticle.getArticleById(article_id, function (err, article) {
     if (err) {
       return next(err);
     }
@@ -123,7 +138,7 @@ exports.create = function (req, res, next) {
   ep.all("article_saved", function (article) {
     res.redirect('/article/' + article.id);
   });
-  Article.newAndSave(title, content, req.session.user._id, function (err, article) {
+  ProxyArticle.newAndSave(title, content, req.session.user._id, function (err, article) {
     if (err) {
       return next(err);
     }
@@ -154,7 +169,7 @@ exports.showUpdate = function (req, res, next) {
       article: article
     });
   });
-  Article.getArticleById(article_id, function (err, article) {
+  ProxyArticle.getArticleById(article_id, function (err, article) {
     if (err) {
       return next(err);
     }
@@ -173,7 +188,7 @@ exports.update = function (req, res, next) {
   var title = req.body.title;
   var content = req.body.content;
   //检查该篇文章的拥有者
-  Article.getArticleById(article_id, function (articleErr, article) {
+  ProxyArticle.getArticleById(article_id, function (articleErr, article) {
     if (articleErr) {
       return next(articleErr);
     };

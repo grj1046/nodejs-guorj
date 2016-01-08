@@ -1,9 +1,13 @@
 var models = require('../models');
 var Article = models.Article;
 
-exports.getArticles = function (callback) {
-  Article.find(callback);
+exports.getArticlesByQuery = function (query, options, callback) {
+  Article.find(query, {}, options, callback);
 };
+
+exports.getCount = function (query, callback) {
+  Article.count(query, callback);
+}
 
 exports.getArticleById = function (article_id, callback) {
   Article.findOne({ _id: article_id }, callback);

@@ -12,8 +12,42 @@
     <ul class="list-group">
       <% for (var i = 0; i < articles.length; i++) { %>
         <li class="list-group-item">
-          <a href="/article/<%= articles[i].id %>"><%= articles[i].title %><a/>
+          <a href="/article/<%= articles[i].id %>"><%= articles[i].title %></a>
         </li>
+      <% } %>
+    </ul>
+    <ul class="pagination">
+      <% if (current_page == 1) { %>
+        <li class='disabled'><span>&laquo;</span></li>
+      <% } else { %>
+        <li><a href="/articles/?page=1" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+      <% } %>
+      
+      <%
+      var page_start = current_page - 2 > 0 ? current_page - 2 : 1;
+      var page_end = page_start + 4 >= pages ? pages : page_start + 4;
+      %>
+
+      <% if (page_start > 1) { %>
+      <li><a>...</a></li>
+      <% } %>
+      
+      <% for (var i = page_start; i <= page_end; i++) { %>
+        <% if (current_page == i) { %>
+          <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
+        <% } else { %>
+          <li><a href="/articles/?page=<%= i %>"><%= i %></a></li>
+        <% } %>
+      <% } %>
+      
+      <% if (page_end < pages ) { %>
+      <li><a>...</a></li>
+      <% } %>
+      
+      <% if (current_page == pages) { %>
+        <li class='disabled'><a>&raquo;</a></li>
+      <% } else { %>
+        <li><a href="/articles/?page=<%= pages %>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
       <% } %>
     </ul>
   </div>

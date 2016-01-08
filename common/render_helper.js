@@ -50,17 +50,17 @@ md.renderer.rules.fence = function (tokens, idx, options) {
 };
 
 md.renderer.rules.code_block = function (tokens, idx) {
-	var token = tokens[idx];
-	var language = tokens.info || '';
-	language = validator.escape(language);
-	
-	return '<pre class="hljs ' + language + '">'
-	  + '<code>' + validator.escape(token.content) + '</code>'
-	  + '</pre>';
+  var token = tokens[idx];
+  var language = tokens.info || '';
+  language = validator.escape(language);
+
+  return '<pre class="hljs ' + language + '">'
+    + '<code>' + validator.escape(token.content) + '</code>'
+    + '</pre>';
 };
 
 md.renderer.code_inline = function (tokens, idx) {
-	return '<code>' + validator.escape(tokens[idx]) + '</code>';
+  return '<code>' + validator.escape(tokens[idx]) + '</code>';
 };
 /*
 var myxss = new jsxss.FilterXSS({
