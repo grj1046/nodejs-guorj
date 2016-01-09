@@ -6,13 +6,23 @@
 	  </ul>
   </div>
   <div class="inner">
-    <div class="page-header">
+    <!--<div class="page-header">
       <h1>文章列表</h1>
-    </div>
+    </div>-->
     <ul class="list-group">
       <% for (var i = 0; i < articles.length; i++) { %>
         <li class="list-group-item">
-          <a href="/article/<%= articles[i].id %>"><%= articles[i].title %></a>
+          <div class="media">
+            <div class="media-left"></div>
+            <div class="media-body">
+              <h4 class="media-heading list-group-item-heading">
+                <a href="/article/<%= articles[i].id %>" target="_blank"><%= articles[i].title %></a>
+              </h4>
+              <div class="list-group-item-text"><small><%= articles[i].summary %></small></div>
+              <div class="pull-right" style="color: gray;"><small>发布于 <%= articles[i].create_at %></small></div>
+            </div>
+            <div class="media-right"></div>
+          </div>
         </li>
       <% } %>
     </ul>

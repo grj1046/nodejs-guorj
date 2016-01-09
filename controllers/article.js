@@ -55,7 +55,7 @@ exports.index = function (req, res, next) {
     if (err) {
       return next(err);
     };
-    ep.emit('get_articles', articles);
+    ep.emit('get_articles', articles || []);
   });
   
   //取分页数据

@@ -1,6 +1,37 @@
 <div class="container">
-  <h2>hello world</h2>
-  <button class="btn btn-primary">button</button>
-  
-  query.limit(20)
+  <div class="inner row">
+    <div class="col-md-9" style="padding-left: 0;">
+      <div class="well">
+        <h1>Hello, world!</h1>
+        <p>...</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+      </div>
+      <ul class="list-group">
+        <% for (var i = 0; i < articles.length; i++) { %>
+          <li class="list-group-item">
+            <div class="media">
+              <div class="media-left"></div>
+              <div class="media-body">
+                <h4 class="media-heading list-group-item-heading">
+                  <a href="/article/<%= articles[i].id %>" target="_blank"><%= articles[i].title %></a>
+                </h4>
+                <div class="list-group-item-text"><small><%= articles[i].summary %></small></div>
+                <div class="pull-right" style="color: gray;"><small>发布于 <%= articles[i].create_at %></small></div>
+              </div>
+              <div class="media-right"></div>
+            </div>
+          </li>
+          <% } %>
+      </ul>
+      <nav>
+        <ul class="pager">
+          <!--<li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>-->
+          <li class="next"><a href="/articles/?page=2">Next Page <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="col-md-3" style="padding-right: 0;">
+      
+    </div>
+  </div>
 </div>
