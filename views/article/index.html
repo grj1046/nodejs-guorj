@@ -19,7 +19,9 @@
                 <a href="/article/<%= articles[i].id %>" target="_blank"><%= articles[i].title %></a>
               </h4>
               <div class="list-group-item-text"><small><%= articles[i].summary %></small></div>
-              <div class="pull-right" style="color: gray;"><small>发布于 <%= articles[i].create_at %></small></div>
+              <div class="pull-right" style="color: gray;">
+                <small title="<%= articles[i].create_at %>">发布于 <%= articles[i].create_at_ago() %></small>
+              </div>
             </div>
             <div class="media-right"></div>
           </div>

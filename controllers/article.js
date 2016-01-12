@@ -263,7 +263,6 @@ exports.preview = function (req, res, next) {
 
     var mdContent = renderHelper.markdown(draft_article.content);
     draft_article.content = mdContent;
-    draft_article.create_time = moment(draft_article.create_at).format("YYYY-MM-DD HH:mm:ss.SSS")
     ProxyDraftArticle.getUserDrafts(user_id, function (errGet, drafts) {
       if (errGet) {
         return next(errGet);
