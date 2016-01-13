@@ -5,62 +5,12 @@
 	    <li class="active">文章</li>
 	  </ul>
   </div>
-  <div class="inner">
-    <!--<div class="page-header">
-      <h1>文章列表</h1>
-    </div>-->
-    <ul class="list-group">
-      <% for (var i = 0; i < articles.length; i++) { %>
-        <li class="list-group-item">
-          <div class="media">
-            <div class="media-left"></div>
-            <div class="media-body">
-              <h4 class="media-heading list-group-item-heading">
-                <a href="/article/<%= articles[i].id %>" target="_blank"><%= articles[i].title %></a>
-              </h4>
-              <div class="list-group-item-text"><small><%= articles[i].summary %></small></div>
-              <div class="pull-right" style="color: gray;">
-                <small title="<%= articles[i].create_at %>">发布于 <%= articles[i].create_at_ago() %></small>
-              </div>
-            </div>
-            <div class="media-right"></div>
-          </div>
-        </li>
-      <% } %>
-    </ul>
-    <ul class="pagination">
-      <% if (current_page == 1) { %>
-        <li class='disabled'><span>&laquo;</span></li>
-      <% } else { %>
-        <li><a href="/articles/?page=1" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-      <% } %>
-      
-      <%
-      var page_start = current_page - 2 > 0 ? current_page - 2 : 1;
-      var page_end = page_start + 4 >= pages ? pages : page_start + 4;
-      %>
-
-      <% if (page_start > 1) { %>
-      <li><a>...</a></li>
-      <% } %>
-      
-      <% for (var i = page_start; i <= page_end; i++) { %>
-        <% if (current_page == i) { %>
-          <li class="active"><span><%= i %> <span class="sr-only">(current)</span></span></li>
-        <% } else { %>
-          <li><a href="/articles/?page=<%= i %>"><%= i %></a></li>
-        <% } %>
-      <% } %>
-      
-      <% if (page_end < pages ) { %>
-      <li><a>...</a></li>
-      <% } %>
-      
-      <% if (current_page == pages) { %>
-        <li class='disabled'><a>&raquo;</a></li>
-      <% } else { %>
-        <li><a href="/articles/?page=<%= pages %>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-      <% } %>
-    </ul>
+  <div class="inner row">
+    <div class="col-md-9" style="padding-left: 0;">
+      <%- partial('_list_articles', {articles: articles}) %>
+      <%- partial('_article_pagination', {pages: pages, current_page: current_page})%>
+    </div>
+    <div class="col-md-3" style="padding-right: 0;">
+    </div>
   </div>
 </div>
