@@ -67,7 +67,11 @@ _.extend(app.locals, require('./common/render_helper'));
 app.use('/', webRouter);
 app.use('/api', webapiRouterV1);
 
-if (!config.debug) {
+//error handler
+if (config.debug) {
+  //打印mongodb查询日志
+  require('./middlewares/mongoose_log');
+} else {
   //全局异常捕获
   app.use(function (err, req, res, next) {
     console.error('server 500 error:', err);

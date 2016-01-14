@@ -68,8 +68,8 @@ exports.index = function (req, res, next) {
 
 exports.showArticle = function (req, res, next) {
   var article_id = req.params.id;
-  if (article_id === '' || article_id === 'preview') {
-    return res.render404('参数出错');
+  if (article_id === '' || article_id === 'preview'  || article_id.length !== 24) {
+    return res.render404('文章不存在');
   }
   var ep = new EventProxy();
   ep.fail(next);
@@ -83,6 +83,9 @@ exports.showArticle = function (req, res, next) {
   ProxyArticle.getArticleById(article_id, function (err, article) {
     if (err) {
       return next(err);
+    }
+    if (!article) {
+      return res.render404('文章不存在');
     }
     if (article.content_id === undefined) {
       article.content = article.summary;
@@ -162,7 +165,9 @@ exports.showUpdate = function (req, res, next) {
   var article_id = req.params.id;
   var ep = new EventProxy();
   ep.fail(next);
-  
+  if (article_id.length !== 24) {
+    return res.render404('该文章不存在。');
+  }
   ep.on('get_article', function (article) {
     res.render('article/edit', {
       title: "编辑",

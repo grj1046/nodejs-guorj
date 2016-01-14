@@ -50,6 +50,10 @@ html, body {
   color: white;
 }
 
+#article_content {
+  font-size: 18px;
+}
+
 /* end stricky footer styles*/
 
 textarea {
