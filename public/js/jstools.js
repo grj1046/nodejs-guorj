@@ -29,4 +29,4 @@
 			_doc.body.removeChild(_form);
 		}
 	};
-})();
+}());

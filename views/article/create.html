@@ -44,6 +44,28 @@
 <script type="text/javascript" src="/public/js/jstools.js"></script>
 <script type="text/javascript">
   $(function() {
+    //textarea支持tab缩进
+    $("#content").on('keydown',function(e){
+      var indent = '  ';
+      var start = this.selectionStart;
+      var end = this.selectionEnd;
+      var selected = window.getSelection().toString();
+      //tab
+      if(e.keyCode == 9 && !e.shiftKey) {
+        e.preventDefault();
+        selected = indent + selected.replace(/\n/g,'\n' + indent);
+        this.value = this.value.substring(0, start) + selected + this.value.substring(end);
+        this.setSelectionRange(start + indent.length, start + selected.length);
+      }
+      //shift + tab
+      if(e.keyCode == 9 && e.shiftKey) {
+        e.preventDefault();
+        selected = indent + selected.replace(/\n/g + indent,'\n');
+        this.value = this.value.substring(0, start) + selected + this.value.substring(end);
+        this.setSelectionRange(start + indent.length, start + selected.length);
+      }
+    });
+    
     $("#article-preview").on('click', function() {
       var _t = new Date().getTime();
       var url = "/api/article/postDraft/" + _t;

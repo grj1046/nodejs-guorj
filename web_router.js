@@ -12,6 +12,9 @@ var router = express.Router();
 //home page
 router.get('/', site.index);
 
+//favicon
+router.get('/favicon.ico', staticController.favicon);
+
 // account controller
 if (config.allow_sign_up) {
   router.get('/signup', account.showSignup);

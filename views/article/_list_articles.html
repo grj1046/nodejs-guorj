@@ -9,7 +9,7 @@
         </h4>
         <div class="list-group-item-text" style="font-size: 12px;"><%= articles[i].summary %></div>
         <div class="pull-right" style="color: gray;">
-          <small title="<%= articles[i].create_at %>">发布于 <%= articles[i].create_at_ago() %></small>
+          <small title="<%= articles[i].create_time() %>">发布于 <%= articles[i].create_at_ago() %></small>
         </div>
       </div>
       <div class="media-right"></div>
