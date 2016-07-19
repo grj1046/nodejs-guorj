@@ -25,5 +25,5 @@ exports.favicon = function (req, res, next) {
 };
 
 exports.jdRoot = function (req, res, next) {
-    res.send(confog.jdRoot);
+    res.send(config.jdRoot);
 };
