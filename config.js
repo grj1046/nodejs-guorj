@@ -26,7 +26,8 @@ var config = {
     secretKey: 'your secret key',
     bucket: 'your bucket name',
     domain: 'http://your qiniu domain'
-  }
+  },
+  jdRoot: "e95d2f4a675fe6f227c630473234b4cc2dc1fa44a81a9a3b"
 };
 
 if (process.env.NODE_ENV === 'test') {

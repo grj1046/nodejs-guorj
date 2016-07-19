@@ -15,6 +15,9 @@ router.get('/', site.index);
 //favicon
 router.get('/favicon.ico', staticController.favicon);
 
+//jd_root.txt
+router.get('/jd_root.txt', staticController.jdRoot);
+
 // account controller
 if (config.allow_sign_up) {
   router.get('/signup', account.showSignup);

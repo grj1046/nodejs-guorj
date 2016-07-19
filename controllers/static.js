@@ -1,4 +1,5 @@
 var path = require('path');
+var config = require('../config');
 //static page
 //about
 exports.about = function (req, res, next) {
@@ -21,4 +22,8 @@ exports.robots = function (req, res, next) {
 
 exports.favicon = function (req, res, next) {
     res.sendFile(path.join(__dirname, "..", "public", "favicon.ico"));
-}
+};
+
+exports.jdRoot = function (req, res, next) {
+    res.send(confog.jdRoot);
+};
