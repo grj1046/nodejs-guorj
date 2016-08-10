@@ -17,10 +17,10 @@ module.exports = function (schema) {
   };
   
   schema.methods.create_time = function() {
-    return moment(this.create_at).format("YYYY-MM-DD HH:mm:ss.SSS")
+    return moment(this.create_at).format("YYYY-MM-DD HH:mm:ss.SSS (ZZ)")
   };
   
   schema.methods.update_time = function() {
-    return moment(this.create_at).format("YYYY-MM-DD HH:mm:ss.SSS")
+    return moment(this.create_at).format("YYYY-MM-DD HH:mm:ss.SSS (ZZ)")
   };
 };

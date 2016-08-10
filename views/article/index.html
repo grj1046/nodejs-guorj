@@ -8,7 +8,9 @@
   <div class="inner row">
     <div class="col-md-9" style="padding-left: 0;">
       <%- partial('_list_articles', {articles: articles}) %>
+      <% if (pages) { %>
       <%- partial('_article_pagination', {pages: pages, current_page: current_page})%>
+      <% } %>
     </div>
     <div class="col-md-3" style="padding-right: 0;">
     </div>

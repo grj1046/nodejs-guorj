@@ -21,7 +21,7 @@
           <strong><%= success %></strong>
         </div>
       <% } else { %>
-        <form id="signup_form" class="form-horizontal" action="/signup" method="post">
+        <form id="signup_form" class="form-horizontal" action="/signup" method="post" novalidate autocomplete="off" >
           <div class="form-group">
             <label class="col-md-2 control-label" for="loginname">用户名</label>
             <div class="col-md-10 controls">

@@ -78,6 +78,10 @@
         data: data,
         async: false,//如果为true，浏览器会进行拦截。
         success: function (data) {
+          if (data.edit_error) {
+            alert(data.edit_error);
+            return;
+          }
           window.open('/article/preview/' + data.t); 
         }
       })
@@ -90,6 +94,10 @@
         dataType: 'json',
         data: data,
         success: function (data) {
+          if (data.edit_error) {
+            alert(data.edit_error);
+            return;
+          }
           window.location.href = "/article/" + data.ArticleId;
         },
         error: function (err, status) {

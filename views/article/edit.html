@@ -17,7 +17,8 @@
     <form id="form-article" class="form-vertical" method="post">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="<%= article.title %>" />
+          <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="<%- article.title %>" />
+          <input type="hidden" id="article_id" name="article_id" value="<%= article._id %>" />
         </div>
         <ul class="toolbar">
           <li><a title="粗体" style="font-weight: bold;">粗体</a></li>
@@ -54,6 +55,10 @@
         data: data,
         async: false,//如果为true，浏览器会进行拦截。
         success: function (data) {
+          if (data.edit_error) {
+            alert(data.edit_error);
+            return;
+          }
           window.open('/article/preview/' + data.t); 
         }
       })
@@ -66,6 +71,10 @@
         dataType: 'json',
         data: data,
         success: function (data) {
+          if (data.edit_error) {
+            alert(data.edit_error);
+            return;
+          }
           window.location.href = "/article/" + data.ArticleId;
         },
         error: function (err, status) {

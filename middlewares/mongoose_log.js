@@ -16,3 +16,4 @@ var traceMQuery = function (method, info, query) {
 };
 
 mongoose.Mongoose.prototype.mquery.setGlobalTraceFunction(traceMQuery);
+mongoose.set('debug', true);

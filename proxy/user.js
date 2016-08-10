@@ -19,7 +19,7 @@ exports.getUserByNames = function (names, callback) {
  */
 exports.newAndSave = function (loginname, email, callback) {
   var user = new User({
-    nickname: loginname,
+    nick_name: loginname,
     name: loginname,
     email: email,
     access_token: uuid.v4()

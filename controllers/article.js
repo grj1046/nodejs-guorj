@@ -3,6 +3,7 @@
  */
 var EventProxy = require('eventproxy');
 var moment = require('moment');
+var utils = require('utility');
 var proxy = require('../proxy');
 var renderHelper = require('../common/render_helper');
 var validator = require('validator');
@@ -68,7 +69,7 @@ exports.index = function (req, res, next) {
 
 exports.showArticle = function (req, res, next) {
   var article_id = req.params.id;
-  if (article_id === '' || article_id === 'preview'  || article_id.length !== 24) {
+  if (article_id === '' || article_id === 'preview'  || !validator.isMongoId(article_id)) {
     return res.render404('文章不存在');
   }
   var ep = new EventProxy();
@@ -165,7 +166,7 @@ exports.showUpdate = function (req, res, next) {
   var article_id = req.params.id;
   var ep = new EventProxy();
   ep.fail(next);
-  if (article_id.length !== 24) {
+  if (!validator.isMongoId(article_id)) {
     return res.render404('该文章不存在。');
   }
   ep.on('get_article', function (article) {
@@ -192,6 +193,9 @@ exports.update = function (req, res, next) {
   var article_id = req.params.id;
   var title = req.body.title;
   var content = req.body.content;
+  if(!validator.isMongoId(article_id)){
+    return res.render404('文章不存在');
+  }
   //检查该篇文章的拥有者
   ProxyArticle.getArticleById(article_id, function (articleErr, article) {
     if (articleErr) {
@@ -223,6 +227,7 @@ exports.update = function (req, res, next) {
           return next(conErr);
         }
         article.title = title;
+        article.summary = content.substr(0, 200);
         article.content_id = articleContent._id;
         article.update_at = new Date();
         article.save(function (updateErr, updateArticle) {
