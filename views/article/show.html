@@ -15,7 +15,9 @@
         </div>
         <hr />
         <div style="margin-bottom: 30px; color: gray;" class="text-right">
-          <small>发布于：<%- article.create_time() %></small>
+          <small title="发布于 <%= article.create_time() %>">
+              <%= article.create_at >= article.update_at ? "发布于 " + article.create_time() : "更新于 " + article.update_time() %>
+          </small>
         </div>
         <div id="article_content">
           <%- article.content %>

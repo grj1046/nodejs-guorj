@@ -1,19 +1,15 @@
-<ul class="list-group">
+<hr />
 <% for (var i = 0; i < articles.length; i++) { %>
-  <li class="list-group-item">
-    <div class="media">
-      <div class="media-left"></div>
-      <div class="media-body">
-        <h4 class="media-heading list-group-item-heading">
-          <a href="/article/<%= articles[i].id %>" target="_blank"><%- articles[i].title %></a>
-        </h4>
-        <div class="list-group-item-text" style="font-size: 12px;"><%= articles[i].summary %></div>
-        <div class="pull-right" style="color: gray;">
-          <small title="<%= articles[i].create_time() %>">发布于 <%= articles[i].create_at_ago() %></small>
-        </div>
-      </div>
-      <div class="media-right"></div>
+<article>
+    <h4 class="post-summary-title">
+        <a href="/article/<%= articles[i].id %>" target="_blank"><%- articles[i].title %></a>
+    </h4>
+    <p class="list-group-item-text" style="font-size: 12px;"><%= articles[i].summary %></p>
+    <div class="post-summary-tags">
+        <small class="pull-right" title="<%= articles[i].create_time() %>">
+            <%= articles[i].create_at >= articles[i].update_at ? "发布于 " + articles[i].create_at_ago() : "更新于 " + articles[i].updated_at_ago() %>
+        </small>
     </div>
-  </li>
-  <% } %>
-</ul>
+</article>
+<hr />
+<% } %>
