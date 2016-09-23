@@ -1,87 +1,87 @@
 <div class="container">
-  <div class="header">
-    <ul class="breadcrumb">
-	  <li><a href='/'>主页</a><span class="divider"></span></li>
-	  <li class="active">修改文章</li>
-	</ul>
-  </div>
-  <div class="inner">
-    <% if (typeof(edit_error) !== 'undefined' && edit_error) { %>
-      <div class="alert alert-danger">
-        <button type="button" class="close" data-dismiss="alert" arial-label="Close">
-          <span arial-hidden="true">&times;</span>
-        </button>
-        <%= edit_error %>
-      </div>
-    <% } %>
-    <form id="form-article" class="form-vertical" method="post">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="<%- article.title %>" />
-          <input type="hidden" id="article_id" name="article_id" value="<%= article._id %>" />
-        </div>
-        <ul class="toolbar">
-          <li><a title="粗体" style="font-weight: bold;">粗体</a></li>
-          <li><a title="斜体" style="font-style: italic;">斜体</a></li>
-          <li><a title="添加图片">图片</a></li>
-          <li><a title="链接">链接</a></li>
-          <li class="pull-right"><a id="article-publish" title="发布文章">发布文章</a></li>
-          <li class="pull-right"><a id="article-preview" title="预览">预览</a></li>
+    <div class="header">
+        <ul class="breadcrumb">
+            <li><a href='/'>主页</a><span class="divider"></span></li>
+            <li class="active">修改文章</li>
         </ul>
-        <div class="panel-body">
-          <textarea class="form-control" style="height: 500px; overflow-y:auto;" id="content" name="content" placeholder="文章内容..."><%= article.content %></textarea>
+    </div>
+    <div class="inner">
+        <% if (typeof(edit_error) !== 'undefined' && edit_error) { %>
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" arial-label="Close">
+                <span arial-hidden="true">&times;</span>
+            </button>
+            <%= edit_error %>
         </div>
-        <!--<div class="panel-footer">
-          <input type="button" id="btn-preview" value="&nbsp;预 览&nbsp;" class="btn btn-default btn-sm" />
-          <input type="submit" value="&nbsp;修 改&nbsp;" class="btn btn-primary btn-sm" />
-        </div>-->
-      </div>
-    </form>
-  </div>
+        <% } %>
+        <form id="form-article" class="form-vertical" method="post">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <input type="text" class="form-control" id="title" name="title" placeholder="标题" value="<%- article.title %>" />
+                    <input type="hidden" id="article_id" name="article_id" value="<%= article._id %>" />
+                </div>
+                <ul class="toolbar">
+                    <li><a title="粗体" style="font-weight: bold;">粗体</a></li>
+                    <li><a title="斜体" style="font-style: italic;">斜体</a></li>
+                    <li><a title="添加图片">图片</a></li>
+                    <li><a title="链接">链接</a></li>
+                    <li class="pull-right"><a id="article-publish" title="发布文章">发布文章</a></li>
+                    <li class="pull-right"><a id="article-preview" title="预览">预览</a></li>
+                </ul>
+                <div class="panel-body">
+                    <textarea class="form-control" style="height: 500px; overflow-y:auto;" id="content" name="content" placeholder="文章内容..."><%= article.content %></textarea>
+                </div>
+                <!--<div class="panel-footer">
+                  <input type="button" id="btn-preview" value="&nbsp;预 览&nbsp;" class="btn btn-default btn-sm" />
+                  <input type="submit" value="&nbsp;修 改&nbsp;" class="btn btn-primary btn-sm" />
+                </div>-->
+            </div>
+        </form>
+    </div>
 </div>
 
 <script type="text/javascript" src="/public/js/jstools.js"></script>
 <script type="text/javascript">
-  $(function() {
-    $("#article-preview").on('click', function() {
-      var _t = new Date().getTime();
-      var url = "/api/article/postDraft/" + _t;
-      var data = $('#form-article').serializeArray();
-      //jstools.openInNewWindow(action, data);
-      $.ajax({
-        url: url,
-        type: 'POST',
-        dataType: 'json',
-        data: data,
-        async: false,//如果为true，浏览器会进行拦截。
-        success: function (data) {
-          if (data.edit_error) {
-            alert(data.edit_error);
-            return;
-          }
-          window.open('/article/preview/' + data.t); 
-        }
-      })
+    $(function () {
+        $("#article-preview").on('click', function () {
+            var _t = new Date().getTime();
+            var url = "/api/article/postDraft/" + _t;
+            var data = $('#form-article').serializeArray();
+            //jstools.openInNewWindow(action, data);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                async: false,//如果为true，浏览器会进行拦截。
+                success: function (data) {
+                    if (data.edit_error) {
+                        alert(data.edit_error);
+                        return;
+                    }
+                    window.open('/article/preview/' + data.t);
+                }
+            })
+        });
+        $("#article-publish").on('click', function () {
+            var data = $('#form-article').serializeArray();
+            $.ajax({
+                url: '/api/article/<%= article.id %>/edit',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    if (data.edit_error) {
+                        alert(data.edit_error);
+                        return;
+                    }
+                    window.location.href = "/article/" + data.ArticleId;
+                },
+                error: function (err, status) {
+                    console.log('err', err);
+                    console.log('status', status);
+                }
+            })
+        });
     });
-    $("#article-publish").on('click', function () {
-      var data = $('#form-article').serializeArray();
-      $.ajax({
-        url: '/api/article/<%= article.id %>/edit',
-        type: 'POST',
-        dataType: 'json',
-        data: data,
-        success: function (data) {
-          if (data.edit_error) {
-            alert(data.edit_error);
-            return;
-          }
-          window.location.href = "/article/" + data.ArticleId;
-        },
-        error: function (err, status) {
-          console.log('err', err);
-          console.log('status', status);
-        }
-      })
-    });
-  });
 </script>

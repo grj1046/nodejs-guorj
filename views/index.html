@@ -1,20 +1,19 @@
 <div class="container">
-  <div class="inner row">
-    <section class="col-md-9" style="padding-left: 0;">
-      <div class="well">
-        <h1>Hello, world!</h1>
-        <p>...</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-      </div>
-      <%- partial('article/_list_articles', {articles: articles}) %>
-      <nav>
-        <ul class="pager">
-          <!--<li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>-->
-          <li class="next"><a href="/articles/?page=2">More <span aria-hidden="true">&rarr;</span></a></li>
-        </ul>
-      </nav>
-    </section>
-    <aside class="col-md-3" style="padding-right: 0;">
-    </aside>
-  </div>
+    <div class="inner row">
+        <section class="col-md-9" style="padding-left: 0;">
+            <div class="well">
+                <h1>Hello, world!</h1>
+                <p>...</p>
+                <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+            </div>
+            <%- partial('article/_list_articles', {articles: articles}) %>
+            <nav>
+                <ul class="pager">
+                    <!--<li class="previous"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>-->
+                    <li class="next"><a href="/articles/?page=2">More <span aria-hidden="true">&rarr;</span></a></li>
+                </ul>
+            </nav>
+        </section>
+        <aside class="col-md-3" style="padding-right: 0;"></aside>
+    </div>
 </div>

@@ -5,13 +5,13 @@ var ObjectId = Schema.ObjectId;
 //var EventProxy = require('eventproxy');
 
 var ArticleSchema = new Schema({
-	title: { type: String },
-	summary: { type: String },
-	author_id: { type: ObjectId }, //对应User表的id
-	content_id: { type: ObjectId }, //当前文章内容的ID(Article_content)
-	deleted: { type: Boolean, default: false },
-	create_at: { type: Date, default: Date.now },
-	update_at: { type: Date, default: Date.now }
+    title: { type: String },
+    summary: { type: String },
+    author_id: { type: ObjectId }, //对应User表的id
+    content_id: { type: ObjectId }, //当前文章内容的ID(Article_content)
+    deleted: { type: Boolean, default: false },
+    create_at: { type: Date, default: Date.now },
+    update_at: { type: Date, default: Date.now }
 });
 
 ArticleSchema.plugin(BaseModel);

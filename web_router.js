@@ -20,10 +20,10 @@ router.get('/jd_root.txt', staticController.jdRoot);
 
 // account controller
 if (config.allow_sign_up) {
-  router.get('/signup', account.showSignup);
-  router.post('/signup', account.signup);
+    router.get('/signup', account.showSignup);
+    router.post('/signup', account.signup);
 } else {
-  //router.get('signup', '')
+    //router.get('signup', '')
 }
 router.get('/login', account.showLogin);
 router.post('/login', account.login);//登录

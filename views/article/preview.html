@@ -1,45 +1,45 @@
-<link rel="Stylesheet" type="text/css" href="/public/css/github-gist.css"/>
+<link rel="Stylesheet" type="text/css" href="/public/css/github-gist.css" />
 <div id="preview_article" class="container">
-  <div class="header">
-    <ul class="breadcrumb">
-      <li><a href='/'>主页</a><span class="divider"></span></li>
-      <li><a href='/articles'>文章</a><span class="divider"></span></li>
-      <li class="active">预览</li>
-    </ul>
-  </div>
-  <div class="inner row">
-    <div class="col-md-9 panel panel-default" style="border: 1px solid #f5f5f5; border-radius: 5px;">
-      <div class="panel-body">
-        <div id="article_title" style="text-align: center; font-size: 20px; font-weight: 900;">
-          <%- article.title %>
-        </div>
-        <hr />
-        <div style="margin-bottom: 30px; color: gray;" class="text-right"><small>创建时间：<%- article.create_time() %></small></div>
-        <div id="article_content">
-          <%- article.content %>
-        </div>
-      </div>
+    <div class="header">
+        <ul class="breadcrumb">
+            <li><a href='/'>主页</a><span class="divider"></span></li>
+            <li><a href='/articles'>文章</a><span class="divider"></span></li>
+            <li class="active">预览</li>
+        </ul>
     </div>
-    <div class="col-md-3" style="padding-right: 0;">
-      <button class="btn btn-large btn-success btn-block" style="margin-bottom:10px;">恢复到这个版本</button>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          草稿
+    <div class="inner row">
+        <div class="col-md-9 panel panel-default" style="border: 1px solid #f5f5f5; border-radius: 5px;">
+            <div class="panel-body">
+                <div id="article_title" style="text-align: center; font-size: 20px; font-weight: 900;">
+                    <%- article.title %>
+                </div>
+                <hr />
+                <div style="margin-bottom: 30px; color: gray;" class="text-right"><small>创建时间：<%- article.create_time() %></small></div>
+                <div id="article_content">
+                    <%- article.content %>
+                </div>
+            </div>
         </div>
-        <div class="panel-body">
-          <div class="list-group">
-            <% for (var i = 0; i < list.length; i++) { %>
-              <div class="list-group-item">
-                <div><a href="/article/preview/<%= list[i].url %>"><%= list[i].save_time %></a></div>
-                <div><small><%- list[i].title %></small></div>
-              </div>
-            <% } %>
-          </div>
+        <div class="col-md-3" style="padding-right: 0;">
+            <button class="btn btn-large btn-success btn-block" style="margin-bottom:10px;">恢复到这个版本</button>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    草稿
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        <% for (var i = 0; i < list.length; i++) { %>
+                        <div class="list-group-item">
+                            <div><a href="/article/preview/<%= list[i].url %>"><%= list[i].save_time %></a></div>
+                            <div><small><%- list[i].title %></small></div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <small>注：文章发布后，将删除所有草稿。</small>
+                </div>
+            </div>
         </div>
-        <div class="panel-footer">
-          <small>注：文章发布后，将删除所有草稿。</small>
-        </div>
-      </div>
     </div>
-  </div>
 </div>

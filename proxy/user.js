@@ -9,22 +9,22 @@ var uuid = require('node-uuid');
  * －users, 用户列表
 * */
 exports.getUserByNames = function (names, callback) {
-  if (names.length === 0) {
-    return callback(null, []);
-  }
-  User.find({ name: {$in: names }}, callback)
+    if (names.length === 0) {
+        return callback(null, []);
+    }
+    User.find({ name: { $in: names } }, callback)
 };
 /**
  * 添加用户
  */
 exports.newAndSave = function (loginname, email, callback) {
-  var user = new User({
-    nick_name: loginname,
-    name: loginname,
-    email: email,
-    access_token: uuid.v4()
-  });
-  user.save(callback);
+    var user = new User({
+        nick_name: loginname,
+        name: loginname,
+        email: email,
+        access_token: uuid.v4()
+    });
+    user.save(callback);
 };
 /**
  * 根据用户id查找用户
@@ -35,5 +35,5 @@ exports.newAndSave = function (loginname, email, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getUserById = function (id, callback) {
-  User.findOne({_id: id}, callback);
+    User.findOne({ _id: id }, callback);
 };

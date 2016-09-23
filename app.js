@@ -29,15 +29,15 @@ app.enable('trust proxy');
 //静态资源
 app.use('/public', express.static(staticDir));
 //通用的中间件
-app.use(bodyParser.json({limit: '1mb'}));
-app.use(bodyParser.urlencoded({extended: true, limit: '1mb'}));
+app.use(bodyParser.json({ limit: '1mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
 //app.use(require('method-override'));
 app.use(require('cookie-parser')(config.session_secret));
 app.use(session({
-  secret: config.session_secret,
-  name: 'sid',//session id
-  resave: true,
-  saveUninitialized: true
+    secret: config.session_secret,
+    name: 'sid',//session id
+    resave: true,
+    saveUninitialized: true
 }));
 
 //custom middleware
@@ -45,21 +45,21 @@ app.use(auth.authUser);
 app.use(auth.blockUser());
 
 if (!config.debug) {
-//  app.use(function (req, res, next) {
-//    if (req,path.indexOf('/api') === -1) {
-//    }
-//  })
-  app.set('view cache', true);
+    //  app.use(function (req, res, next) {
+    //    if (req,path.indexOf('/api') === -1) {
+    //    }
+    //  })
+    app.set('view cache', true);
 }
 
 app.use(function (req, res, next) {
-  res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
-  next();
+    res.locals.csrf = req.csrfToken ? req.csrfToken() : '';
+    next();
 });
 // set static, dynamic helpers
 // 全局的帮助函数或者变量
 _.extend(app.locals, {
-  config: config,
+    config: config,
 });
 
 app.use(errorPageMiddleware.errorPage);
@@ -69,21 +69,21 @@ app.use('/api', webapiRouterV1);
 
 //error handler
 if (config.debug) {
-  //打印mongodb查询日志
-  require('./middlewares/mongoose_log');
+    //打印mongodb查询日志
+    require('./middlewares/mongoose_log');
 } else {
-  //全局异常捕获
-  app.use(function (err, req, res, next) {
-    console.error('server 500 error:', err);
-    return res.status(500).send('500 status');
-  });
+    //全局异常捕获
+    app.use(function (err, req, res, next) {
+        console.error('server 500 error:', err);
+        return res.status(500).send('500 status');
+    });
 }
 
-app.listen(config.port, function() {
-  console.log('guorj.cn listening on port', config.port);
-  console.log('God bless love ...');
-  console.log('You can debug your app with http://' + config.hostname + ':' + config.port);
-  console.log('');
+app.listen(config.port, function () {
+    console.log('guorj.cn listening on port', config.port);
+    console.log('God bless love ...');
+    console.log('You can debug your app with http://' + config.hostname + ':' + config.port);
+    console.log('');
 });
 
 module.exports = app;

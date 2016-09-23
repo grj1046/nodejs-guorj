@@ -11,21 +11,21 @@ var Account = models.Account;
  * @param {Function} callback 回调函数
  */
 exports.getAccountsByQuery = function (query, opt, callback) {
-  Account.find(query, '', opt, callback);
+    Account.find(query, '', opt, callback);
 };
 
 /**
  * 注册新用户
  */
 exports.newAndSave = function (loginname, passhash, email, user_id, callback) {
-  var account = new Account({ 
-    loginname: loginname,
-    passhash: passhash,
-    email: email,
-    user_id: user_id
-  });
-  
-  account.save(callback);
+    var account = new Account({
+        loginname: loginname,
+        passhash: passhash,
+        email: email,
+        user_id: user_id
+    });
+
+    account.save(callback);
 };
 /**
  * 根据登录名查找用户
@@ -36,7 +36,7 @@ exports.newAndSave = function (loginname, passhash, email, user_id, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getAccountByLoginname = function (loginname, callback) {
-  Account.findOne({'loginname': loginname}, callback);
+    Account.findOne({ 'loginname': loginname }, callback);
 };
 /**
  * 根据邮箱查找用户
@@ -47,5 +47,5 @@ exports.getAccountByLoginname = function (loginname, callback) {
  * @param {Function} callback 回调函数
  */
 exports.getAccountByEmail = function (email, callback) {
-  Account.findOne({email: email}, callback);
+    Account.findOne({ email: email }, callback);
 };

@@ -6,8 +6,8 @@ var config = require('../config');
 var maindb = mongoose.createConnection(config.maindb);
 var tmpdb = maindb.useDb(config.tmpdb_name || config.maindb + '_tmpdb'); //mongoose.createConnection(config.tmpdb);
 
-maindb.on('error', function(){
-	console.log('connect to db has an error。', arguments);
+maindb.on('error', function () {
+    console.log('connect to db has an error。', arguments);
 });
 
 //models
