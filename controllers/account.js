@@ -5,7 +5,7 @@ var User = require('../proxy').User;
 var authMiddleWare = require('../middlewares/auth');
 var EventProxy = require('eventproxy');
 var validator = require('validator');
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 
 //sign up
 exports.showSignup = function (req, res) {
